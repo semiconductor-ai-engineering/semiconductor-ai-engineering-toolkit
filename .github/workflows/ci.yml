@@ -8,23 +8,24 @@ permissions:
   contents: read
 
 jobs:
-  documentation-placeholder:
-    name: Documentation placeholder
+  validation:
+    name: Python validation tests
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Check baseline files
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -f README.md
-          test -f LICENSE
-          test -f SECURITY.md
-          test -f CONTRIBUTING.md
-          test -f docs/PROJECT_BASELINE_V0_1.md
-          test -f docs/ROADMAP.md
-          test -f docs/ARCHITECTURE.md
-          test -f examples/README.md
-          echo "Public project baseline files are present."
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install package and test dependencies
+        run: python -m pip install -e ".[test]"
+
+      - name: Run tests
+        run: python -m pytest -q
+
+      - name: Validate representative fixture through CLI
+        run: semi-ai validate examples/synthetic_data/run_warning_alarm_001.json

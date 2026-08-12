@@ -13,7 +13,7 @@ This project is in the design and initial-build stage (`pre-alpha`). The public 
 - `engineering report generator`: turn structured run data into traceable Markdown reports;
 - `knowledge retrieval demo`: demonstrate local retrieval over public or synthetic engineering documents with source references.
 
-The current milestone contains documentation, governance files, a machine-readable JSON Schema, and small synthetic fixtures only. Parser and workflow implementation will be added in later, reviewable steps.
+The current milestone contains documentation, governance files, a machine-readable JSON Schema, small synthetic fixtures, and a local schema validation toolkit. Parser and workflow implementation will be added in later, reviewable steps.
 
 ## Explicit boundary
 
@@ -34,6 +34,7 @@ This is a public, general-purpose foundation. It is not a public mirror of any p
 - [Architecture](docs/ARCHITECTURE.md)
 - [Data model v0.1](docs/DATA_MODEL_V0_1.md)
 - [Machine-readable run schema](schema/run_record_v0_1.schema.json)
+- [Validation toolkit](docs/VALIDATION_TOOLKIT_V0_1.md)
 - [Security policy](SECURITY.md)
 - [Contributing guide](CONTRIBUTING.md)
 - [Synthetic examples policy](examples/README.md)
@@ -46,7 +47,8 @@ The project will grow through small, inspectable commits:
 1. project baseline;
 2. run-centric data schema;
 3. synthetic dataset;
-4. parser implementation;
-5. tests and expanded CI.
+4. schema validation toolkit;
+5. parser implementation;
+6. tests and expanded CI.
 
 The project will prefer deterministic inputs, visible errors, source-linked outputs, and human review over broad automation claims.

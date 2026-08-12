@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel>=0.42,<1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "semiconductor-ai-engineering-toolkit"
+version = "0.1.0"
+description = "Public synthetic-data foundation for AI-assisted semiconductor engineering workflows"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+dependencies = [
+  "jsonschema>=4.23,<5",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8,<9",
+]
+
+[project.scripts]
+semi-ai = "semiconductor_ai_engineering_toolkit.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra"
