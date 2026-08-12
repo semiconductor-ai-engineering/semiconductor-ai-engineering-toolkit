@@ -1,0 +1,100 @@
+{
+  "schema_version": "0.1",
+  "record_type": "run",
+  "run_id": "synthetic-dataset-v0-1-run-quality-001",
+  "status": "completed",
+  "equipment": {
+    "equipment_class": "synthetic_demo_equipment",
+    "public_label": "demo-unit-quality"
+  },
+  "module": {
+    "module_class": "synthetic_process_module",
+    "public_label": "demo-module-quality"
+  },
+  "process_type": "synthetic_data_quality_demo",
+  "timestamps": {
+    "time_status": "invalid"
+  },
+  "parameters": [
+    {
+      "parameter_id": "synthetic-quality-pressure-001",
+      "name": "demo_pressure_target",
+      "parameter_kind": "target",
+      "raw_value": "unparseable_demo_token",
+      "value_type": "number",
+      "value_status": "invalid",
+      "unit": "Pa",
+      "unit_status": "known",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-quality-001#parameter-pressure",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "invalid",
+        "flags": ["value_invalid"],
+        "notes": ["The token is intentionally invalid for a parser quality test."]
+      }
+    }
+  ],
+  "measurements": [
+    {
+      "measurement_id": "synthetic-quality-flag-measurement-001",
+      "name": "demo_boolean_flag",
+      "measurement_kind": "other",
+      "value": true,
+      "value_type": "boolean",
+      "value_status": "known",
+      "unit_status": "not_applicable",
+      "observed_at": "2026-02-05T13:02:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-quality-001#measurement-flag",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": ["unit_not_applicable"],
+        "notes": ["A unit is not applicable to this fictional boolean flag."]
+      }
+    }
+  ],
+  "events": [
+    {
+      "event_id": "synthetic-quality-review-001",
+      "event_type": "annotation",
+      "severity": "warning",
+      "event_status": "observed",
+      "code": "SYNTH-QUALITY-001",
+      "message": "Synthetic quality review marked one value and the run timing as invalid.",
+      "observed_at": "2026-02-05T13:03:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-quality-001#event-review",
+        "extraction_method": "synthetic_generator"
+      }
+    }
+  ],
+  "metadata": {
+    "dataset_id": "synthetic-semiconductor-engineering-v0.1",
+    "generator": "hand-authored deterministic synthetic fixture",
+    "input_format": "generated",
+    "created_at": "2026-02-05T13:05:00Z",
+    "labels": ["synthetic", "data_quality", "invalid_value", "dataset_v0_1"],
+    "notes": ["Schema-valid does not mean quality-accepted; this fixture intentionally carries invalid quality status."]
+  },
+  "provenance": {
+    "source_kind": "synthetic",
+    "source_id": "synthetic-semiconductor-engineering-v0.1",
+    "locator": "generated:run-quality-001",
+    "extraction_method": "synthetic_generator"
+  },
+  "quality": {
+    "quality_status": "invalid",
+    "flags": ["invalid_timestamp", "invalid_parameter_value"],
+    "notes": ["This is a schema-valid quality case. Invalid means the data should not be treated as accepted evidence."]
+  }
+}

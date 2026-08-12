@@ -13,7 +13,7 @@ This project is in the design and initial-build stage (`pre-alpha`). The public 
 - `engineering report generator`: turn structured run data into traceable Markdown reports;
 - `knowledge retrieval demo`: demonstrate local retrieval over public or synthetic engineering documents with source references.
 
-The current milestone contains documentation, governance files, a machine-readable JSON Schema, small synthetic fixtures, and a local schema validation toolkit. Parser and workflow implementation will be added in later, reviewable steps.
+The current milestone contains documentation, governance files, a machine-readable JSON Schema, small synthetic fixtures, a local schema validation toolkit, and a fully synthetic dataset v0.1. Parser and workflow implementation will be added in later, reviewable steps.
 
 ## Explicit boundary
 
@@ -39,6 +39,7 @@ This is a public, general-purpose foundation. It is not a public mirror of any p
 - [Contributing guide](CONTRIBUTING.md)
 - [Synthetic examples policy](examples/README.md)
 - [Synthetic run fixtures](examples/synthetic_data/)
+- [Synthetic dataset v0.1](examples/synthetic_dataset_v0_1/)
 
 ## Development philosophy
 
@@ -46,9 +47,10 @@ The project will grow through small, inspectable commits:
 
 1. project baseline;
 2. run-centric data schema;
-3. synthetic dataset;
+3. synthetic RunRecord fixtures;
 4. schema validation toolkit;
-5. parser implementation;
-6. tests and expanded CI.
+5. synthetic dataset v0.1;
+6. parser implementation;
+7. tests and expanded CI.
 
 The project will prefer deterministic inputs, visible errors, source-linked outputs, and human review over broad automation claims.

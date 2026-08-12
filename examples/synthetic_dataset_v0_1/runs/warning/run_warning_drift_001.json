@@ -1,0 +1,163 @@
+{
+  "schema_version": "0.1",
+  "record_type": "run",
+  "run_id": "synthetic-dataset-v0-1-run-warning-drift-001",
+  "status": "completed",
+  "equipment": {
+    "equipment_class": "synthetic_demo_equipment",
+    "public_label": "demo-unit-warning"
+  },
+  "module": {
+    "module_class": "synthetic_process_module",
+    "public_label": "demo-module-warning"
+  },
+  "process_type": "synthetic_drift_demo",
+  "timestamps": {
+    "start": "2026-02-02T11:00:00Z",
+    "end": "2026-02-02T11:10:00Z",
+    "time_status": "known"
+  },
+  "parameters": [
+    {
+      "parameter_id": "synthetic-warning-pressure-001",
+      "name": "demo_pressure_target",
+      "parameter_kind": "target",
+      "value": 14.0,
+      "raw_value": "14.0",
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "Pa",
+      "unit_status": "known",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-warning-drift-001#parameter-pressure",
+        "extraction_method": "synthetic_generator"
+      }
+    },
+    {
+      "parameter_id": "synthetic-warning-flow-001",
+      "name": "demo_carrier_flow",
+      "parameter_kind": "input",
+      "value": 32.0,
+      "raw_value": "32.0",
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "sccm",
+      "unit_status": "known",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-warning-drift-001#parameter-flow",
+        "extraction_method": "synthetic_generator"
+      }
+    }
+  ],
+  "measurements": [
+    {
+      "measurement_id": "synthetic-warning-pressure-measurement-001",
+      "name": "demo_pressure_observed",
+      "measurement_kind": "signal",
+      "value": 15.1,
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "Pa",
+      "unit_status": "known",
+      "observed_at": "2026-02-02T11:05:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-warning-drift-001#measurement-pressure",
+        "extraction_method": "synthetic_generator"
+      }
+    },
+    {
+      "measurement_id": "synthetic-warning-flow-measurement-001",
+      "name": "demo_carrier_flow_observed",
+      "measurement_kind": "signal",
+      "value": 30.8,
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "sccm",
+      "unit_status": "known",
+      "observed_at": "2026-02-02T11:06:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-warning-drift-001#measurement-flow",
+        "extraction_method": "synthetic_generator"
+      }
+    }
+  ],
+  "events": [
+    {
+      "event_id": "synthetic-warning-start-001",
+      "event_type": "state_change",
+      "severity": "info",
+      "event_status": "observed",
+      "code": "SYNTH-START-002",
+      "message": "Synthetic drift demo entered the active state.",
+      "observed_at": "2026-02-02T11:00:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-warning-drift-001#event-start",
+        "extraction_method": "synthetic_generator"
+      }
+    },
+    {
+      "event_id": "synthetic-warning-drift-001",
+      "event_type": "warning",
+      "severity": "warning",
+      "event_status": "observed",
+      "code": "SYNTH-DRIFT-001",
+      "message": "Synthetic observed value moved away from the fictional demo target.",
+      "observed_at": "2026-02-02T11:05:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-warning-drift-001#event-drift",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": ["synthetic_drift_marker"],
+        "notes": ["The drift marker is a test scenario, not a process limit or diagnosis."]
+      }
+    },
+    {
+      "event_id": "synthetic-warning-end-001",
+      "event_type": "state_change",
+      "severity": "info",
+      "event_status": "observed",
+      "code": "SYNTH-END-002",
+      "message": "Synthetic drift demo entered the completed state.",
+      "observed_at": "2026-02-02T11:10:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-warning-drift-001#event-end",
+        "extraction_method": "synthetic_generator"
+      }
+    }
+  ],
+  "metadata": {
+    "dataset_id": "synthetic-semiconductor-engineering-v0.1",
+    "generator": "hand-authored deterministic synthetic fixture",
+    "input_format": "generated",
+    "created_at": "2026-02-02T11:12:00Z",
+    "labels": ["synthetic", "warning", "parameter_drift", "dataset_v0_1"],
+    "notes": ["The warning and values are fictional and do not define an acceptable operating band."]
+  },
+  "provenance": {
+    "source_kind": "synthetic",
+    "source_id": "synthetic-semiconductor-engineering-v0.1",
+    "locator": "generated:run-warning-drift-001",
+    "extraction_method": "synthetic_generator"
+  },
+  "quality": {
+    "quality_status": "uncertain",
+    "flags": ["warning_observed", "synthetic_parameter_drift"],
+    "notes": ["This quality state records a fictional warning scenario; it is not a production assessment."]
+  }
+}

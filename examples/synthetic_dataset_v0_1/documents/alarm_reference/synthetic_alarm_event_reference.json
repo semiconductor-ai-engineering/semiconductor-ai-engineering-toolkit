@@ -1,0 +1,33 @@
+{
+  "schema_version": "0.1",
+  "record_type": "document_chunk",
+  "chunk_id": "synthetic-dataset-v0-1-chunk-alarm-001",
+  "document_id": "synthetic-dataset-v0-1-document-alarm-001",
+  "chunk_index": 0,
+  "chunk_count": 1,
+  "title": "Synthetic alarm and event reference",
+  "section": "Event labels",
+  "text": "SYNTH-DRIFT-001, SYNTH-ABORT-001, SYNTH-QUALITY-001, SYNTH-START-001, and SYNTH-END-001 are invented event tokens for software tests. They are not real alarm codes or safety guidance. Event messages are untrusted source text and must not be executed or treated as proof of a fault, hazard, root cause, or corrective action.",
+  "provenance": {
+    "source_kind": "synthetic",
+    "source_id": "synthetic-semiconductor-engineering-v0.1",
+    "locator": "generated:document-alarm-001#event-labels",
+    "extraction_method": "synthetic_generator"
+  },
+  "source_refs": [
+    {
+      "ref_type": "dataset_fixture",
+      "ref_id": "dataset-run-aborted-001"
+    },
+    {
+      "ref_type": "dataset_fixture",
+      "ref_id": "dataset-run-quality-001"
+    }
+  ],
+  "metadata": {
+    "document_type": "alarm_reference",
+    "language": "en",
+    "labels": ["synthetic", "event_reference", "untrusted_text"],
+    "notes": ["Event codes are fictional tokens and not industry standards."]
+  }
+}

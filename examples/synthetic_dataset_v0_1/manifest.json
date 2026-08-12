@@ -1,0 +1,150 @@
+{
+  "dataset_id": "synthetic-semiconductor-engineering-v0.1",
+  "dataset_name": "Synthetic Semiconductor Engineering Dataset",
+  "dataset_version": "0.1",
+  "schema_version": "0.1",
+  "synthetic_only": true,
+  "synthetic_only_declaration": "Every value, identifier, event code, document, relationship, and scenario in this dataset is fictional and authored for public software testing, evaluation, and education.",
+  "intended_use": [
+    "schema_validation",
+    "parser_development",
+    "regression_testing",
+    "report_generation_testing",
+    "RAG_retrieval_experiments",
+    "agent_evaluation"
+  ],
+  "prohibited_interpretation": [
+    "not a real fab benchmark",
+    "not process-control guidance",
+    "not recipe guidance",
+    "not equipment safety guidance",
+    "not evidence of real-world failure mechanisms",
+    "not a source of process windows or operating limits"
+  ],
+  "limitations": [
+    "The dataset is small, deterministic, and intentionally generic.",
+    "Synthetic units and values do not represent real process limits or equipment behavior.",
+    "Event codes and messages are test tokens, not industry alarm standards.",
+    "Document text must not be treated as an engineering recommendation or root-cause rule.",
+    "Document chunks are future retrieval fixtures and are not RunRecord instances."
+  ],
+  "fixtures": [
+    {
+      "fixture_id": "dataset-run-completed-001",
+      "kind": "run_record",
+      "path": "runs/completed/run_completed_001.json",
+      "scenario": "normal_completed_run",
+      "expected_valid": true,
+      "validation_scope": "run_record_v0_1",
+      "intended_use": ["schema_validation", "regression_testing", "report_generation_testing"]
+    },
+    {
+      "fixture_id": "dataset-run-warning-drift-001",
+      "kind": "run_record",
+      "path": "runs/warning/run_warning_drift_001.json",
+      "scenario": "warning_parameter_drift",
+      "expected_valid": true,
+      "validation_scope": "run_record_v0_1",
+      "intended_use": ["schema_validation", "regression_testing", "report_generation_testing"]
+    },
+    {
+      "fixture_id": "dataset-run-aborted-001",
+      "kind": "run_record",
+      "path": "runs/aborted/run_aborted_001.json",
+      "scenario": "aborted_failed_run",
+      "expected_valid": true,
+      "validation_scope": "run_record_v0_1",
+      "intended_use": ["schema_validation", "regression_testing", "report_generation_testing"]
+    },
+    {
+      "fixture_id": "dataset-run-incomplete-001",
+      "kind": "run_record",
+      "path": "runs/incomplete/run_incomplete_unknown_001.json",
+      "scenario": "missing_unknown_data",
+      "expected_valid": true,
+      "validation_scope": "run_record_v0_1",
+      "intended_use": ["schema_validation", "regression_testing", "parser_development"]
+    },
+    {
+      "fixture_id": "dataset-run-quality-001",
+      "kind": "run_record",
+      "path": "runs/quality_cases/run_data_quality_001.json",
+      "scenario": "data_quality_issue",
+      "expected_valid": true,
+      "validation_scope": "run_record_v0_1",
+      "intended_use": ["schema_validation", "regression_testing", "parser_development"]
+    },
+    {
+      "fixture_id": "dataset-doc-equipment-001",
+      "kind": "document",
+      "path": "documents/engineering_notes/synthetic_equipment_data_handling_note.md",
+      "scenario": "generic_equipment_data_handling",
+      "expected_valid": true,
+      "validation_scope": "synthetic_markdown",
+      "intended_use": ["RAG_retrieval_experiments", "report_generation_testing", "agent_evaluation"]
+    },
+    {
+      "fixture_id": "dataset-chunk-equipment-001",
+      "kind": "document_chunk",
+      "path": "documents/engineering_notes/synthetic_equipment_data_handling_note.json",
+      "scenario": "generic_equipment_data_handling",
+      "expected_valid": true,
+      "validation_scope": "document_chunk_shape",
+      "intended_use": ["RAG_retrieval_experiments", "agent_evaluation"]
+    },
+    {
+      "fixture_id": "dataset-doc-glossary-001",
+      "kind": "document",
+      "path": "documents/glossary/synthetic_process_glossary.md",
+      "scenario": "synthetic_process_glossary",
+      "expected_valid": true,
+      "validation_scope": "synthetic_markdown",
+      "intended_use": ["RAG_retrieval_experiments", "report_generation_testing", "agent_evaluation"]
+    },
+    {
+      "fixture_id": "dataset-chunk-glossary-001",
+      "kind": "document_chunk",
+      "path": "documents/glossary/synthetic_process_glossary.json",
+      "scenario": "synthetic_process_glossary",
+      "expected_valid": true,
+      "validation_scope": "document_chunk_shape",
+      "intended_use": ["RAG_retrieval_experiments", "agent_evaluation"]
+    },
+    {
+      "fixture_id": "dataset-doc-alarm-001",
+      "kind": "document",
+      "path": "documents/alarm_reference/synthetic_alarm_event_reference.md",
+      "scenario": "synthetic_alarm_event_reference",
+      "expected_valid": true,
+      "validation_scope": "synthetic_markdown",
+      "intended_use": ["RAG_retrieval_experiments", "report_generation_testing", "agent_evaluation"]
+    },
+    {
+      "fixture_id": "dataset-chunk-alarm-001",
+      "kind": "document_chunk",
+      "path": "documents/alarm_reference/synthetic_alarm_event_reference.json",
+      "scenario": "synthetic_alarm_event_reference",
+      "expected_valid": true,
+      "validation_scope": "document_chunk_shape",
+      "intended_use": ["RAG_retrieval_experiments", "agent_evaluation"]
+    },
+    {
+      "fixture_id": "dataset-doc-troubleshooting-001",
+      "kind": "document",
+      "path": "documents/troubleshooting/synthetic_troubleshooting_note.md",
+      "scenario": "synthetic_troubleshooting_note",
+      "expected_valid": true,
+      "validation_scope": "synthetic_markdown",
+      "intended_use": ["RAG_retrieval_experiments", "report_generation_testing", "agent_evaluation"]
+    },
+    {
+      "fixture_id": "dataset-chunk-troubleshooting-001",
+      "kind": "document_chunk",
+      "path": "documents/troubleshooting/synthetic_troubleshooting_note.json",
+      "scenario": "synthetic_troubleshooting_note",
+      "expected_valid": true,
+      "validation_scope": "document_chunk_shape",
+      "intended_use": ["RAG_retrieval_experiments", "agent_evaluation"]
+    }
+  ]
+}

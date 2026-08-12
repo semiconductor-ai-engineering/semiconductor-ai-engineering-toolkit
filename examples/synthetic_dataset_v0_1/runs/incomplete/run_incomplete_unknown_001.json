@@ -1,0 +1,117 @@
+{
+  "schema_version": "0.1",
+  "record_type": "run",
+  "run_id": "synthetic-dataset-v0-1-run-incomplete-001",
+  "status": "unknown",
+  "equipment": {
+    "equipment_class": "synthetic_demo_equipment",
+    "public_label": "demo-unit-incomplete"
+  },
+  "module": {
+    "module_class": "synthetic_process_module",
+    "public_label": "demo-module-incomplete"
+  },
+  "process_type": "synthetic_incomplete_demo",
+  "timestamps": {
+    "time_status": "unknown"
+  },
+  "parameters": [
+    {
+      "parameter_id": "synthetic-incomplete-pressure-001",
+      "name": "demo_pressure_target",
+      "parameter_kind": "target",
+      "raw_value": "not reported",
+      "value_type": "number",
+      "value_status": "unknown",
+      "unit_status": "unknown",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-incomplete-001#parameter-pressure",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "incomplete",
+        "flags": ["value_unknown", "unit_unknown"],
+        "notes": ["The fictional input is intentionally unresolved."]
+      }
+    },
+    {
+      "parameter_id": "synthetic-incomplete-power-001",
+      "name": "demo_source_power",
+      "parameter_kind": "setpoint",
+      "raw_value": "not recorded",
+      "value_type": "number",
+      "value_status": "missing",
+      "unit_status": "missing",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-incomplete-001#parameter-power",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "incomplete",
+        "flags": ["value_missing", "unit_missing"],
+        "notes": []
+      }
+    }
+  ],
+  "measurements": [
+    {
+      "measurement_id": "synthetic-incomplete-signal-001",
+      "name": "demo_module_signal",
+      "measurement_kind": "signal",
+      "value_type": "number",
+      "value_status": "unknown",
+      "unit": "a.u.",
+      "unit_status": "known",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-incomplete-001#measurement-signal",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "uncertain",
+        "flags": ["value_unknown"],
+        "notes": ["The fictional unit is known while the measurement value is unavailable."]
+      }
+    }
+  ],
+  "events": [
+    {
+      "event_id": "synthetic-incomplete-event-001",
+      "event_type": "other",
+      "severity": "unknown",
+      "event_status": "unknown",
+      "code": "SYNTH-UNKNOWN-001",
+      "message": "Synthetic event record exists, but its timing and severity are unknown.",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-incomplete-001#event-unknown",
+        "extraction_method": "synthetic_generator"
+      }
+    }
+  ],
+  "metadata": {
+    "dataset_id": "synthetic-semiconductor-engineering-v0.1",
+    "generator": "hand-authored deterministic synthetic fixture",
+    "input_format": "generated",
+    "created_at": "2026-02-04T12:05:00Z",
+    "labels": ["synthetic", "incomplete", "missing_unknown", "dataset_v0_1"],
+    "notes": ["This fixture intentionally distinguishes missing values from unknown values."]
+  },
+  "provenance": {
+    "source_kind": "synthetic",
+    "source_id": "synthetic-semiconductor-engineering-v0.1",
+    "locator": "generated:run-incomplete-001",
+    "extraction_method": "synthetic_generator"
+  },
+  "quality": {
+    "quality_status": "incomplete",
+    "flags": ["timestamps_unknown", "inputs_incomplete", "measurement_unknown"],
+    "notes": ["No absent value is silently converted to zero or another guessed value."]
+  }
+}

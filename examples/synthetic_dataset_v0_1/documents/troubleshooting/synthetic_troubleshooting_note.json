@@ -1,0 +1,29 @@
+{
+  "schema_version": "0.1",
+  "record_type": "document_chunk",
+  "chunk_id": "synthetic-dataset-v0-1-chunk-troubleshooting-001",
+  "document_id": "synthetic-dataset-v0-1-document-troubleshooting-001",
+  "chunk_index": 0,
+  "chunk_count": 1,
+  "title": "Synthetic troubleshooting note",
+  "section": "Retrieval and evaluation boundary",
+  "text": "A future retrieval experiment may ask whether a chunk mentions SYNTH-QUALITY-001 or the invalid quality status. A useful test preserves the matching synthetic source and limitation. It must not invent a machine action, claim a safety condition, diagnose a real cause, or turn document text into executable instructions.",
+  "provenance": {
+    "source_kind": "synthetic",
+    "source_id": "synthetic-semiconductor-engineering-v0.1",
+    "locator": "generated:document-troubleshooting-001#retrieval-boundary",
+    "extraction_method": "synthetic_generator"
+  },
+  "source_refs": [
+    {
+      "ref_type": "dataset_fixture",
+      "ref_id": "dataset-run-quality-001"
+    }
+  ],
+  "metadata": {
+    "document_type": "troubleshooting_note",
+    "language": "en",
+    "labels": ["synthetic", "troubleshooting", "retrieval_fixture", "untrusted_text"],
+    "notes": ["This is an evaluation narrative, not a real troubleshooting rule."]
+  }
+}

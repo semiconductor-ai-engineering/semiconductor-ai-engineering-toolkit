@@ -19,15 +19,31 @@ Status: `DONE` for the first public run-centric contract.
 - add the machine-readable [JSON Schema](../schema/run_record_v0_1.schema.json);
 - add complete and incomplete examples without real equipment data.
 
-## Phase 0.4 — Synthetic dataset
+## Phase 0.4A — Synthetic RunRecord fixtures
 
-Status: `TODO`.
+Status: `DONE`.
 
-- add small synthetic CSV/JSON logs;
-- include normal, incomplete, malformed, and alarm/event cases;
-- document how each example is generated and redistributed.
+- add completed, incomplete, and warning/alarm RunRecord fixtures;
+- add a first document chunk example;
+- document synthetic-only redistribution boundaries.
 
-## Phase 0.5 — Parser implementation
+## Phase 0.4B — Schema validation toolkit
+
+Status: `DONE`.
+
+- provide a small `jsonschema`-based API and `semi-ai validate` CLI;
+- report deterministic validation errors;
+- run focused tests and CI checks.
+
+## Phase 0.5 — Synthetic dataset v0.1
+
+Status: `DONE`.
+
+- add a small fully synthetic RunRecord scenario set;
+- add original document and DocumentChunk fixtures for future retrieval evaluation;
+- document manifest, limitations, and contribution boundaries.
+
+## Phase 0.6 — Parser implementation
 
 Status: `TODO`.
 
@@ -35,7 +51,7 @@ Status: `TODO`.
 - report visible validation errors;
 - add focused tests for the synthetic dataset.
 
-## Phase 0.6 — Tests and CI expansion
+## Phase 0.7 — Tests and CI expansion
 
 Status: `TODO`.
 

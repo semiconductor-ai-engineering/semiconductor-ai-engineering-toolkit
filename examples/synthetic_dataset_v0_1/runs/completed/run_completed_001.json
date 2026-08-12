@@ -1,0 +1,143 @@
+{
+  "schema_version": "0.1",
+  "record_type": "run",
+  "run_id": "synthetic-dataset-v0-1-run-completed-001",
+  "status": "completed",
+  "equipment": {
+    "equipment_class": "synthetic_demo_equipment",
+    "public_label": "demo-unit-completed"
+  },
+  "module": {
+    "module_class": "synthetic_process_module",
+    "public_label": "demo-module-completed"
+  },
+  "process_type": "synthetic_parameter_cycle",
+  "timestamps": {
+    "start": "2026-02-01T10:00:00Z",
+    "end": "2026-02-01T10:08:00Z",
+    "time_status": "known"
+  },
+  "parameters": [
+    {
+      "parameter_id": "synthetic-completed-pressure-001",
+      "name": "demo_pressure_target",
+      "parameter_kind": "target",
+      "value": 10.0,
+      "raw_value": "10.0",
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "Pa",
+      "unit_status": "known",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-completed-001#parameter-pressure",
+        "extraction_method": "synthetic_generator"
+      }
+    },
+    {
+      "parameter_id": "synthetic-completed-power-001",
+      "name": "demo_source_power",
+      "parameter_kind": "setpoint",
+      "value": 120.0,
+      "raw_value": "120.0",
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "W",
+      "unit_status": "known",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-completed-001#parameter-power",
+        "extraction_method": "synthetic_generator"
+      }
+    }
+  ],
+  "measurements": [
+    {
+      "measurement_id": "synthetic-completed-pressure-measurement-001",
+      "name": "demo_pressure_observed",
+      "measurement_kind": "signal",
+      "value": 10.1,
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "Pa",
+      "unit_status": "known",
+      "observed_at": "2026-02-01T10:04:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-completed-001#measurement-pressure",
+        "extraction_method": "synthetic_generator"
+      }
+    },
+    {
+      "measurement_id": "synthetic-completed-output-measurement-001",
+      "name": "demo_output_signal",
+      "measurement_kind": "result",
+      "value": 0.82,
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "a.u.",
+      "unit_status": "known",
+      "observed_at": "2026-02-01T10:07:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-completed-001#measurement-output",
+        "extraction_method": "synthetic_generator"
+      }
+    }
+  ],
+  "events": [
+    {
+      "event_id": "synthetic-completed-start-001",
+      "event_type": "state_change",
+      "severity": "info",
+      "event_status": "observed",
+      "code": "SYNTH-START-001",
+      "message": "Synthetic demo cycle entered the active state.",
+      "observed_at": "2026-02-01T10:00:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-completed-001#event-start",
+        "extraction_method": "synthetic_generator"
+      }
+    },
+    {
+      "event_id": "synthetic-completed-end-001",
+      "event_type": "state_change",
+      "severity": "info",
+      "event_status": "observed",
+      "code": "SYNTH-END-001",
+      "message": "Synthetic demo cycle entered the completed state.",
+      "observed_at": "2026-02-01T10:08:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-semiconductor-engineering-v0.1",
+        "locator": "generated:run-completed-001#event-end",
+        "extraction_method": "synthetic_generator"
+      }
+    }
+  ],
+  "metadata": {
+    "dataset_id": "synthetic-semiconductor-engineering-v0.1",
+    "generator": "hand-authored deterministic synthetic fixture",
+    "input_format": "generated",
+    "created_at": "2026-02-01T10:10:00Z",
+    "labels": ["synthetic", "completed", "dataset_v0_1"],
+    "notes": ["All values and event codes are fictional and have no process-control meaning."]
+  },
+  "provenance": {
+    "source_kind": "synthetic",
+    "source_id": "synthetic-semiconductor-engineering-v0.1",
+    "locator": "generated:run-completed-001",
+    "extraction_method": "synthetic_generator"
+  },
+  "quality": {
+    "quality_status": "accepted",
+    "flags": [],
+    "notes": ["Accepted here means structurally complete for this synthetic test fixture."]
+  }
+}
