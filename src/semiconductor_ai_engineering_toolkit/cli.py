@@ -1,4 +1,4 @@
-"""Command-line interface for local validation, parsing, and reporting."""
+"""Command-line interface for local validation, parsing, reporting, and retrieval."""
 
 from __future__ import annotations
 
@@ -12,6 +12,13 @@ from .engineering_report import (
     EngineeringReportValidationError,
     generate_engineering_report_file,
     render_engineering_report,
+)
+from .knowledge_retrieval import (
+    EVIDENCE_NOTICE,
+    KnowledgeCorpusError,
+    KnowledgeRetrievalInputError,
+    build_local_index,
+    retrieve_documents,
 )
 from .synthetic_log_parser import (
     SyntheticLogParseError,
@@ -43,6 +50,22 @@ def _parser() -> argparse.ArgumentParser:
         "--output",
         type=Path,
         help="optional output Markdown path; an existing path is never overwritten",
+    )
+    retrieve = commands.add_parser(
+        "retrieve",
+        help="retrieve ranked evidence from a local synthetic document corpus",
+    )
+    retrieve.add_argument("query", help="untrusted lexical query text")
+    retrieve.add_argument(
+        "--corpus",
+        type=Path,
+        help="optional explicit local .json file or directory of synthetic document chunks",
+    )
+    retrieve.add_argument(
+        "--top-k",
+        type=int,
+        default=3,
+        help="maximum number of ranked evidence results (1-20; default: 3)",
     )
     return parser
 
@@ -79,6 +102,11 @@ def _write_new_text(path: Path, text: str) -> bool:
         print("- output file could not be written")
         return False
     return True
+
+
+def _print_retrieve_failure(error: KnowledgeRetrievalInputError | KnowledgeCorpusError) -> None:
+    print("Retrieve failed")
+    print(f"- {error.code}: {error.message}")
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -150,6 +178,22 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.output is not None:
             return 0 if _write_new_text(args.output, markdown) else 2
         print(markdown, end="")
+        return 0
+
+    if args.command == "retrieve":
+        try:
+            index = build_local_index(args.corpus)
+            results = retrieve_documents(index, args.query, args.top_k)
+        except (KnowledgeRetrievalInputError, KnowledgeCorpusError) as exc:
+            _print_retrieve_failure(exc)
+            return 1
+
+        payload = {
+            "evidence_notice": EVIDENCE_NOTICE,
+            "query": args.query,
+            "results": results,
+        }
+        print(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True))
         return 0
 
     return 2
