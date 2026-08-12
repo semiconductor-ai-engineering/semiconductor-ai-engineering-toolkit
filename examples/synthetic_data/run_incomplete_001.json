@@ -1,0 +1,162 @@
+{
+  "schema_version": "0.1",
+  "record_type": "run",
+  "run_id": "synthetic-run-incomplete-001",
+  "status": "aborted",
+  "equipment": {
+    "equipment_class": "synthetic_chamber",
+    "public_label": "demo-equipment"
+  },
+  "module": {
+    "module_class": "generic_process_module",
+    "public_label": "demo-module"
+  },
+  "process_type": "generic_incomplete_input_demo",
+  "timestamps": {
+    "start": "2026-01-16T14:00:00Z",
+    "time_status": "partial"
+  },
+  "parameters": [
+    {
+      "parameter_id": "param-pressure-setpoint-002",
+      "name": "pressure_setpoint",
+      "parameter_kind": "setpoint",
+      "value_type": "number",
+      "value_status": "unknown",
+      "unit": "Pa",
+      "unit_status": "known",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-incomplete-001#parameter-pressure",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "incomplete",
+        "flags": [
+          "value_unknown"
+        ],
+        "notes": [
+          "Synthetic input intentionally omits the setpoint value."
+        ]
+      }
+    },
+    {
+      "parameter_id": "param-power-setpoint-002",
+      "name": "power_setpoint",
+      "parameter_kind": "setpoint",
+      "raw_value": "not recorded",
+      "value_type": "number",
+      "value_status": "missing",
+      "unit_status": "missing",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-incomplete-001#parameter-power",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "incomplete",
+        "flags": [
+          "value_missing",
+          "unit_missing"
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "measurements": [
+    {
+      "measurement_id": "measurement-temperature-002",
+      "name": "module_temperature",
+      "measurement_kind": "signal",
+      "value": 66.0,
+      "value_type": "number",
+      "value_status": "known",
+      "unit_status": "unknown",
+      "observed_at": "2026-01-16T14:02:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-incomplete-001#measurement-temperature",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "uncertain",
+        "flags": [
+          "missing_unit"
+        ],
+        "notes": [
+          "Synthetic measurement is present but its unit is intentionally unresolved."
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "event_id": "event-run-started-002",
+      "event_type": "state_change",
+      "severity": "info",
+      "event_status": "observed",
+      "code": "SYNTH_RUN_STARTED",
+      "observed_at": "2026-01-16T14:00:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-incomplete-001#event-started",
+        "extraction_method": "synthetic_generator"
+      }
+    },
+    {
+      "event_id": "event-sensor-timeout-002",
+      "event_type": "alarm",
+      "severity": "error",
+      "event_status": "unresolved",
+      "code": "SYNTH_SENSOR_TIMEOUT",
+      "message": "Synthetic measurement stream ended before the demo run completed.",
+      "observed_at": "2026-01-16T14:03:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-incomplete-001#event-alarm",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": [],
+        "notes": []
+      }
+    }
+  ],
+  "metadata": {
+    "dataset_id": "synthetic-dataset-v0.1",
+    "generator": "hand-authored deterministic fixture",
+    "input_format": "generated",
+    "created_at": "2026-01-16T14:10:00Z",
+    "labels": [
+      "synthetic",
+      "incomplete",
+      "training_fixture"
+    ],
+    "notes": [
+      "This fixture intentionally demonstrates unknown values, missing units, and an unresolved alarm."
+    ]
+  },
+  "provenance": {
+    "source_kind": "synthetic",
+    "source_id": "synthetic-dataset-v0.1",
+    "locator": "generated:run-incomplete-001",
+    "extraction_method": "synthetic_generator"
+  },
+  "quality": {
+    "quality_status": "incomplete",
+    "flags": [
+      "partial_timestamps",
+      "incomplete_inputs",
+      "unresolved_alarm"
+    ],
+    "notes": [
+      "Synthetic fixture; an incomplete record is expected to remain visibly incomplete."
+    ]
+  }
+}

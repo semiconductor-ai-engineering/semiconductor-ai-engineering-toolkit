@@ -2,42 +2,29 @@
 
 ## Purpose
 
-This directory is reserved for small, reproducible, public-safe fixtures for the v0.1 data model. Phase 0.3 adds this README only; it does not add parser code or synthetic data files yet.
+This directory contains small, deterministic, public-safe fixtures for the v0.1 run-centric data model. Every value, identifier, timestamp, event code, and message is invented for this repository. Nothing is copied from a real fab, tool, recipe, customer, HDP, or private platform.
 
-## Planned fixture set
+## Current fixtures
 
-Future commits may add fixtures such as:
+| File | Purpose |
+| --- | --- |
+| [run_completed_001.json](run_completed_001.json) | Complete run with setpoint parameters, measurements, a warning, and a state-change event. |
+| [run_incomplete_001.json](run_incomplete_001.json) | Aborted run with an unknown value, missing unit, partial timestamps, and an unresolved synthetic alarm. |
 
-```text
-examples/synthetic_data/
-├── README.md
-├── run_completed_001.json
-├── run_missing_field_001.json
-├── run_invalid_value_001.json
-├── events_001.json
-└── document_chunks_001.jsonl
-```
-
-The names above describe planned test cases, not files that already exist.
+Both fixtures are intended to validate against [run_record_v0_1.schema.json](../../schema/run_record_v0_1.schema.json). They demonstrate the contract; they do not demonstrate production performance or engineering conclusions.
 
 ## Synthetic-data rules
 
-- Every fixture must be labeled with `source_kind: synthetic`.
-- Values must be deliberately generated and must not be copied from a real fab, tool, recipe, customer, or private platform.
-- Generic labels such as `synthetic_chamber` and `synthetic_recipe_a` are preferred over real equipment identifiers.
-- Timestamps, parameter values, event codes, and document text may be arbitrary, but they must be internally consistent enough to test parsing and reporting.
-- Missing, unknown, not-applicable, and invalid cases should be represented explicitly rather than silently replaced with zero or an empty string.
-- Document chunks must contain synthetic or explicitly redistributable text and a stable source locator.
-- Do not include credentials, tokens, cookies, passwords, private paths, `.env` files, unredacted logs, or screenshots.
+- Every fixture uses provenance source_kind synthetic.
+- Values must be deliberately generated and must not be copied from real fab logs, equipment logs, recipes, customers, or private platforms.
+- Generic classes such as synthetic_chamber and generic_process_module are preferred over real equipment identifiers.
+- Unknown, missing, not-applicable, and invalid states are represented explicitly; they are not silently replaced with zero, an empty string, or a guessed unit.
+- Messages, raw values, notes, labels, and extension values are untrusted data. They must never be interpreted as commands or agent instructions.
+- Do not include credentials, tokens, cookies, passwords, private keys, webhooks, environment files, private paths, URLs, unredacted logs, or screenshots.
+- Do not add parser business logic to this directory.
 
-## Planned validation
+## Planned additions
 
-Each future fixture should pass:
+Later synthetic-dataset work may add malformed-input fixtures, CSV/text source samples, document chunks for local retrieval, and generated cases for parser warnings. Each addition must remain public-safe and document its generation method.
 
-1. structural checks against the published data model;
-2. semantic checks for IDs, timestamps, units, and status combinations;
-3. provenance checks for the synthetic source marker;
-4. public-safety checks for prohibited identifiers and secrets;
-5. downstream checks showing how the fixture can feed a parser, report generator, or retrieval demo.
-
-See [DATA_MODEL_V0_1.md](../../docs/DATA_MODEL_V0_1.md) and [SCHEMA_DECISIONS.md](../../docs/SCHEMA_DECISIONS.md) for the design contract.
+See [DATA_MODEL_V0_1.md](../../docs/DATA_MODEL_V0_1.md), [SCHEMA_DECISIONS.md](../../docs/SCHEMA_DECISIONS.md), and [SECURITY.md](../../SECURITY.md) for the contract and safety boundary.

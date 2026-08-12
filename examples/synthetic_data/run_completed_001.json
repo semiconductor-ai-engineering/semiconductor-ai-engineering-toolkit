@@ -1,0 +1,180 @@
+{
+  "schema_version": "0.1",
+  "record_type": "run",
+  "run_id": "synthetic-run-completed-001",
+  "status": "completed",
+  "equipment": {
+    "equipment_class": "synthetic_chamber",
+    "public_label": "demo-equipment"
+  },
+  "module": {
+    "module_class": "generic_process_module",
+    "public_label": "demo-module"
+  },
+  "process_type": "generic_pressure_temperature_demo",
+  "timestamps": {
+    "start": "2026-01-15T10:00:00Z",
+    "end": "2026-01-15T10:12:00Z",
+    "time_status": "known"
+  },
+  "parameters": [
+    {
+      "parameter_id": "param-pressure-setpoint-001",
+      "name": "pressure_setpoint",
+      "parameter_kind": "setpoint",
+      "value": 15.0,
+      "raw_value": "15.0",
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "Pa",
+      "unit_status": "known",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-completed-001#parameter-pressure",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": [],
+        "notes": []
+      }
+    },
+    {
+      "parameter_id": "param-power-setpoint-001",
+      "name": "power_setpoint",
+      "parameter_kind": "setpoint",
+      "value": 250.0,
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "W",
+      "unit_status": "known",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-completed-001#parameter-power",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": [],
+        "notes": []
+      }
+    }
+  ],
+  "measurements": [
+    {
+      "measurement_id": "measurement-pressure-001",
+      "name": "pressure",
+      "measurement_kind": "signal",
+      "value": 14.8,
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "Pa",
+      "unit_status": "known",
+      "observed_at": "2026-01-15T10:04:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-completed-001#measurement-pressure",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": [],
+        "notes": []
+      }
+    },
+    {
+      "measurement_id": "measurement-temperature-001",
+      "name": "module_temperature",
+      "measurement_kind": "signal",
+      "value": 68.0,
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "C",
+      "unit_status": "known",
+      "observed_at": "2026-01-15T10:05:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-completed-001#measurement-temperature",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": [],
+        "notes": []
+      }
+    }
+  ],
+  "events": [
+    {
+      "event_id": "event-run-started-001",
+      "event_type": "state_change",
+      "severity": "info",
+      "event_status": "observed",
+      "code": "SYNTH_RUN_STARTED",
+      "message": "Synthetic run entered the active state.",
+      "observed_at": "2026-01-15T10:00:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-completed-001#event-started",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": [],
+        "notes": []
+      }
+    },
+    {
+      "event_id": "event-stability-warning-001",
+      "event_type": "warning",
+      "severity": "warning",
+      "event_status": "cleared",
+      "code": "SYNTH_STABILITY_DELAY",
+      "message": "Synthetic stability check took longer than the demo threshold.",
+      "observed_at": "2026-01-15T10:03:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-completed-001#event-warning",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": [],
+        "notes": []
+      }
+    }
+  ],
+  "metadata": {
+    "dataset_id": "synthetic-dataset-v0.1",
+    "generator": "hand-authored deterministic fixture",
+    "input_format": "generated",
+    "created_at": "2026-01-15T10:20:00Z",
+    "labels": [
+      "synthetic",
+      "complete",
+      "training_fixture"
+    ],
+    "notes": [
+      "All values and messages are invented for public schema testing."
+    ]
+  },
+  "provenance": {
+    "source_kind": "synthetic",
+    "source_id": "synthetic-dataset-v0.1",
+    "locator": "generated:run-completed-001",
+    "extraction_method": "synthetic_generator"
+  },
+  "quality": {
+    "quality_status": "accepted",
+    "flags": [],
+    "notes": [
+      "Synthetic fixture; not a production observation."
+    ]
+  }
+}

@@ -10,15 +10,16 @@ Status: `DONE` for the initial repository skeleton.
 - define public data and security boundaries;
 - add license, security policy, contribution guide, templates, and CI placeholder.
 
-## Phase 0.2 — Data schema design
+## Phase 0.3 — Data schema design
 
-Status: `TODO`.
+Status: `DONE` for the first public run-centric contract.
 
-- define a minimal run/event schema;
-- document units, missing values, warnings, and schema versioning;
-- add schema examples without real equipment data.
+- define a minimal run-centric record with equipment/module context, process type, parameters, measurements, events, metadata, provenance, and quality;
+- document units, missing values, warnings, unknown-field handling, security boundaries, and schema versioning;
+- add the machine-readable [JSON Schema](../schema/run_record_v0_1.schema.json);
+- add complete and incomplete examples without real equipment data.
 
-## Phase 0.3 — Synthetic dataset
+## Phase 0.4 — Synthetic dataset
 
 Status: `TODO`.
 
@@ -26,7 +27,7 @@ Status: `TODO`.
 - include normal, incomplete, malformed, and alarm/event cases;
 - document how each example is generated and redistributed.
 
-## Phase 0.4 — Parser implementation
+## Phase 0.5 — Parser implementation
 
 Status: `TODO`.
 
@@ -34,7 +35,7 @@ Status: `TODO`.
 - report visible validation errors;
 - add focused tests for the synthetic dataset.
 
-## Phase 0.5 — Tests and CI expansion
+## Phase 0.6 — Tests and CI expansion
 
 Status: `TODO`.
 

@@ -1,58 +1,68 @@
 # Schema Decisions
 
-This file records the decisions behind `DATA_MODEL_V0_1.md`. The decisions are intentionally conservative so the public model remains reusable and does not become a copy of one private system.
+This file records the decisions behind [DATA_MODEL_V0_1.md](DATA_MODEL_V0_1.md) and [run_record_v0_1.schema.json](../schema/run_record_v0_1.schema.json). The decisions keep the public model small, inspectable, and independent of any private semiconductor platform.
 
 ## Decision table
 
 | ID | Decision | Rationale | Trade-off |
 | --- | --- | --- | --- |
-| D-001 | Use JSON-oriented canonical records. | JSON can represent nested provenance, quality, events, and document chunks without flattening everything into columns. | CSV users need a normalization step before downstream use. |
-| D-002 | Keep CSV/text as future inputs, not canonical outputs. | Parsers can accept many formats while reports and RAG consume one stable shape. | The parser will need explicit mapping and error handling later. |
-| D-003 | Every record has a stable string identity. | IDs let observations, events, chunks, and evidence references survive reordering and regeneration. | Producers must generate and preserve IDs. |
-| D-004 | Use ISO 8601 UTC timestamps when trustworthy. | Cross-source ordering and report generation need an unambiguous time basis. | Unknown timezone input must remain visibly uncertain. |
-| D-005 | Separate `value`, `raw_value`, `unit`, and status fields. | Normalization should not destroy the original safe token or hide missing units. | Records are more verbose than a simple key/value map. |
-| D-006 | Distinguish `missing`, `unknown`, `not_applicable`, and `invalid`. | A missing field, an unavailable fact, an irrelevant field, and a failed parse have different meanings. | Consumers need to handle more than one null-like state. |
-| D-007 | Require provenance on observations, events, documents, and chunks. | Report and RAG layers need evidence paths and reproducibility. | Synthetic fixtures must carry metadata even when generation is local. |
-| D-008 | Make `source_kind` explicit and public-safe. | The public repository must distinguish synthetic data from sanitized or public material. | A future private deployment may need an adapter outside this public schema. |
-| D-009 | Keep events separate from observations. | An alarm or state change is not necessarily a numeric measurement. | Report generators need two collections to summarize. |
-| D-010 | Use a small, shared quality object. | Parser, report, and retrieval layers need a common way to expose incomplete or uncertain data. | Quality status is not a complete statistical confidence model. |
-| D-011 | Add an `extensions` namespace. | Domain-specific fields can evolve without forcing vendor fields into the core model. | Extensions are not automatically interoperable and require their own documentation. |
-| D-012 | Add document and chunk records in v0.1. | RAG workflows need stable document identity, chunk identity, source location, and retrieval metadata. | Embeddings and vector-store details remain implementation-specific. |
-| D-013 | Evidence references distinguish direct and derived support. | Generated explanations must not be presented as raw observations. | Future report generation must preserve evidence links. |
-| D-014 | Do not make LLM output a canonical observation. | Model output is an interpretation or suggestion, not a measurement. | Human review and a future derived-claim type are required for AI-assisted reports. |
-| D-015 | Use additive evolution within the `0.1` design line. | Small additions are easier to review than hidden breaking changes. | A future breaking change will need a new schema version and migration note. |
-| D-016 | Delay machine-readable JSON Schema and parser implementation. | This phase is for domain and boundary decisions; premature code would freeze unclear assumptions. | The current docs are not executable validation. |
-| D-017 | Synthetic-only examples in the public repository. | The first dataset must be safe to redistribute and independent of private platform access. | Synthetic data cannot prove production performance. |
-| D-018 | Prefer generic classes over real identifiers. | Classes such as `synthetic_chamber` are reusable without exposing serial numbers, site names, or proprietary tool models. | Some real-world specificity is deferred to private adapters or later public contributions. |
+| D-001 | Use a JSON-oriented canonical RunRecord. | Nested context, values, events, quality, and provenance remain explicit for parsers and downstream consumers. | CSV and free-form text inputs need a normalization step. |
+| D-002 | Keep the model run-centric. | A run is the smallest useful unit for future parsing, reporting, retrieval, and human review. | Cross-run analytics and lot-level entities are deferred. |
+| D-003 | Make equipment, module, and process_type explicit top-level concepts. | These are required engineering context without forcing vendor-specific fields into the core. | More detailed equipment identity must wait for a reviewed public taxonomy or private adapter. |
+| D-004 | Separate parameters from measurements. | Inputs/setpoints and observed/results values have different meanings and should not be confused in a report. | A producer must classify an item during normalization. |
+| D-005 | Keep events separate from values. | Alarms, warnings, and state changes are discrete events, not numeric measurements. | Event summaries require a separate collection. |
+| D-006 | Use ISO 8601 UTC timestamps and an explicit time_status. | Ordering and report generation need an unambiguous time basis without inventing unknown times. | Ambiguous or incomplete source timestamps remain visibly incomplete. |
+| D-007 | Do not use null for canonical missingness. | missing, unknown, not_applicable, and invalid have different meanings and are easier to validate as statuses. | Consumers need to handle status fields instead of a single null case. |
+| D-008 | Require value_type, value_status, and unit_status on parameters and measurements. | A normalized consumer can distinguish an unavailable value from a zero and a missing unit from a known unit. | Records are more verbose than a flat name/value map. |
+| D-009 | Keep units free-form but explicit in v0.1. | A universal unit registry would be premature; an explicit short string still prevents silent inference. | Unit equivalence and conversion are deferred. |
+| D-010 | Use enums only for stable workflow states and event classes. | Statuses and event categories need predictable downstream behavior. | Process taxonomy and domain names remain less constrained. |
+| D-011 | Keep equipment classes, module classes, process types, names, and units free-form. | This avoids early binding to private PVD, CVD, etch, vendor, or tool vocabularies. | Interoperability across public contributions will require later vocabulary work. |
+| D-012 | Require provenance at the run and item levels. | Reports, RAG results, and human review need to trace a value or event to a safe source. | Small synthetic fixtures carry repeated metadata. |
+| D-013 | Allow only public-safe source kinds in the contract. | synthetic, sanitized_public, and public make redistribution intent explicit. | Private sources require a separate controlled system and adapter. |
+| D-014 | Restrict provenance locator to an identifier, not a path or URL. | File and network references create exfiltration, access, and reproducibility risks in public records. | External source linking is deferred to reviewed documentation or a future allowlisted field. |
+| D-015 | Reject unknown core fields with additionalProperties false. | Silent acceptance makes parser and agent behavior ambiguous and hides typos or unreviewed data. | Producers must update the schema or use a documented extension. |
+| D-016 | Support additive extensions only through namespaced extensions. | Domain-specific fields can evolve without polluting the core contract. | Extensions are not automatically interoperable and remain subject to safety review. |
+| D-017 | Add a machine-readable JSON Schema in this milestone. | Executable structure makes fixtures, future parsers, and CI checks more concrete. | JSON Schema does not replace semantic or secret-scanning review. |
+| D-018 | Include two small synthetic JSON fixtures. | One complete and one incomplete case make the conditional status rules reviewable without adding parser code. | Synthetic values cannot demonstrate production performance. |
+| D-019 | Treat text fields as untrusted data. | Logs, messages, documents, and model output can carry prompt injection or unsafe instructions. | RAG/report/agent layers must add escaping, provenance, and human review. |
+| D-020 | Prohibit secrets and proprietary data in all examples and extensions. | The repository is public and has no authorization to receive real fab, HDP, customer, or private platform data. | Public examples remain intentionally generic. |
+| D-021 | Keep schema_version at the string 0.1. | The first contract needs a stable identity and explicit breaking-change boundary. | Future breaking changes require migration notes and a new version. |
+| D-022 | Do not add parser, report, RAG, or agent business code yet. | This milestone defines the contract before implementation and keeps review scope small. | Runnable behavior is deferred to later phases. |
 
 ## Rejected shortcuts
 
 ### One flat table for every record
 
-Rejected because events, measurements, documents, and evidence have different semantics. A flat table would encourage overloaded columns and ambiguous nulls.
+Rejected because inputs, observations, and events have different semantics. A flat table encourages overloaded columns and ambiguous nulls.
 
-### Implicit units
+### Implicit units or automatic conversion
 
-Rejected because a parameter name cannot safely establish a unit. Unit status must be explicit and missing units must remain visible.
+Rejected because a parameter name cannot safely establish a unit. v0.1 records an explicit unit when known and leaves conversion to a reviewed later component.
 
-### `null` as the only missing-value state
+### null as the only missing-value state
 
-Rejected because `null` cannot distinguish missing input, unknown information, not-applicable fields, and invalid parsing.
+Rejected because null cannot distinguish missing input, unavailable information, an irrelevant field, and a failed parse.
 
-### Embedding vectors as canonical fields
+### A universal process or equipment enum
 
-Rejected for v0.1 because embeddings depend on a model, version, dimension, and storage backend. They can be added under an extension with provenance later.
+Rejected because it would quickly become a private taxonomy disguised as a public standard. Generic classes and free-form names are safer for v0.1.
 
-### Model-generated recommendations inside `Observation`
+### Arbitrary top-level fields
 
-Rejected because recommendations are derived claims and must not be confused with measurements. A future report/evidence layer should carry them separately with human-review status.
+Rejected because unknown data can be mistaken for validated context. Core fields are closed; additive fields need a namespace and documentation.
 
-## Open questions for a later phase
+### URLs, paths, or opaque external references in provenance
 
-- Should the canonical version use full semantic versioning after the first executable schema?
-- Should a formal `DerivedClaim` record be added for report and agent outputs?
-- Which public unit vocabulary is small enough for v0.1 without becoming a full metrology standard?
-- Should document chunks use character offsets, page/section locators, or both?
-- How should a parser expose multiple candidate interpretations without silently choosing one?
+Rejected because public records should not create implicit network access, leak private locations, or make an agent follow unreviewed links.
 
-These questions are intentionally not resolved by Phase 0.3.
+### Model-generated recommendations inside parameters or measurements
+
+Rejected because a recommendation is a derived claim, not a process input or observation. Future reports need a separate evidence and human-review contract.
+
+## Open questions for later phases
+
+- Should a public unit vocabulary or conversion registry be added after synthetic fixtures and parser tests exist?
+- Should a formal DerivedClaim and EvidenceReference output contract be added for report and agent workflows?
+- Should event timestamps support intervals and source timezone metadata in a future version?
+- Which extension namespaces and public taxonomies are maintainable across contributors?
+- How should parsers expose multiple candidate interpretations without silently selecting one?

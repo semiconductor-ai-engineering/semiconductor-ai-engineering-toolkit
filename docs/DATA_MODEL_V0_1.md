@@ -2,391 +2,215 @@
 
 ## Status
 
-This document defines a design-only public data model. It does not add parser code, a validator implementation, a JSON Schema file, or a real dataset.
+This document defines the first public, run-centric interchange model for the project. The executable contract is [run_record_v0_1.schema.json](../schema/run_record_v0_1.schema.json). The repository includes two deliberately artificial examples under [examples/synthetic_data](../examples/synthetic_data/).
 
-The canonical interchange shape is JSON-oriented. CSV and text logs may be future parser inputs, but downstream modules should consume normalized records with explicit provenance and quality metadata.
+This milestone adds a data contract and public-safe fixtures only. It does not add parser business logic, equipment integrations, report-generation code, retrieval code, agent code, or production validation.
 
 ## Design goals
 
-- Use small, reusable structures instead of vendor-specific fields.
-- Preserve the difference between an observation, an event, a derived statement, and a document citation.
-- Keep raw values, normalized values, units, timestamps, source references, and quality state visible.
-- Support future log parsing, Markdown report generation, and retrieval-augmented generation (RAG) without copying private data into the public repository.
-- Make synthetic examples easy to validate and safe to redistribute.
+- Give future log parsers one small normalized shape.
+- Keep run identity, equipment/module context, process parameters, measurements, events, metadata, and provenance visible.
+- Support traceable engineering reports and source-linked retrieval without treating generated text as measurement data.
+- Keep process type, parameter names, and units generic enough for different public or synthetic examples.
+- Make incomplete, unknown, invalid, and untrusted input states explicit.
+- Keep every public example synthetic or explicitly redistributable.
 
 ## Non-goals
 
-- controlling equipment or writing recipes;
-- modeling every semiconductor process or vendor format;
-- inferring a root cause from a single observation;
-- treating model output as measurement data;
-- accepting customer data, real fab logs, or private platform exports.
+- Controlling equipment, writing recipes, tuning a process, or closing a control loop.
+- Modeling every vendor format or every semiconductor process family.
+- Defining private PVD, CVD, etch, fab, customer, or platform fields.
+- Inferring root cause, process health, or corrective action from a run record.
+- Treating model output, a report narrative, or a retrieval answer as an observation.
+- Accepting credentials, secrets, private paths, network references, or proprietary data.
 
-## Model overview
+## Canonical record
 
-```text
+The canonical record is a JSON object with these top-level fields:
+
+~~~text
 RunRecord
-├── SourceReference
-├── RunContext
-├── Observation[]
-├── Event[]
-├── QualitySummary
-└── extensions
+├── schema_version + record_type
+├── run_id + status
+├── equipment + module + process_type
+├── timestamps
+├── parameters[]
+├── measurements[]
+├── events[]
+├── metadata
+├── provenance
+├── quality
+└── extensions (optional, namespaced)
+~~~
 
-DocumentRecord
-└── DocumentChunk[]
-    └── SourceReference + RetrievalMetadata
+The arrays are intentionally present even when empty. This gives parsers and report generators a stable shape. A producer may omit optional fields inside an item when the information is unavailable, but it must use the relevant status field instead of inventing a value.
 
-ReportRecord (future output contract)
-└── EvidenceReference[] → RunRecord / Observation / Event / DocumentChunk
-```
+### Top-level fields
 
-## Shared conventions
-
-### Schema version
-
-Every canonical record carries `schema_version`. The v0.1 value is the string `"0.1"`. A schema change that changes meaning or removes a field requires an explicit decision and a new version.
-
-### Record identity
-
-Every record has a stable `record_id` within its record type. A human-readable `run_id`, `document_id`, or `chunk_id` may also be present, but consumers must not use array position as identity.
-
-Recommended ID properties:
-
-- string, not an integer;
-- stable across parsing and report regeneration;
-- safe to expose publicly;
-- not derived from a customer name, equipment serial number, or private path.
-
-### Time
-
-Use ISO 8601 timestamps normalized to UTC when a trustworthy timestamp exists, for example `2026-01-15T10:00:00Z`. A future parser may retain an input timezone in provenance, but it must not silently treat an unknown timezone as UTC.
-
-When time is unavailable or ambiguous, use `time_status` and a quality flag rather than inventing a timestamp.
-
-### Values and units
-
-An observation separates:
-
-- `value`: normalized JSON value used by downstream consumers;
-- `raw_value`: optional original token or text, only when safe to redistribute;
-- `value_type`: number, string, boolean, or object;
-- `unit`: explicit unit when applicable;
-- `unit_status`: known, missing, not_applicable, or unknown;
-- `value_status`: known, missing, unknown, not_applicable, or invalid.
-
-Missing values must not be converted to zero. A unit must not be inferred from a parameter name alone.
-
-### Provenance
-
-`SourceReference` is required for observations, events, documents, chunks, and future reports. It records where a value or text came from without requiring a private filesystem path.
-
-```json
-{
-  "source_kind": "synthetic",
-  "source_id": "synthetic-dataset-v0.1",
-  "locator": "generated:run-completed-001",
-  "content_hash": "sha256:optional-public-fixture-hash",
-  "extraction_method": "synthetic_generator"
-}
-```
-
-Allowed public `source_kind` values in v0.1:
-
-- `synthetic`: generated for this project and not copied from a real site;
-- `sanitized_public`: derived from material that is explicitly safe to redistribute;
-- `public`: a public source whose redistribution and excerpting rights are documented.
-
-The value `private` is intentionally not a public example value. Private sources belong in a separate controlled system.
-
-### Quality state
-
-Quality metadata describes data handling, not business importance and not the probability that an interpretation is true.
-
-```json
-{
-  "quality_status": "accepted",
-  "flags": [],
-  "notes": []
-}
-```
-
-Recommended `quality_status` values:
-
-- `accepted`: passed the checks currently applied;
-- `uncertain`: usable but contains an unresolved ambiguity;
-- `incomplete`: required context is missing;
-- `invalid`: failed a structural or semantic check;
-- `not_assessed`: quality has not yet been evaluated.
-
-## Core records
-
-### RunRecord
-
-`RunRecord` is the run-level aggregate consumed by report generation and future evaluation.
-
-| Field | Type | Required | Meaning |
+| Field | Required | Type | Meaning |
 | --- | --- | --- | --- |
-| `schema_version` | string | yes | Canonical schema version, `"0.1"` for this document. |
-| `record_type` | string | yes | Literal `"run"`. |
-| `record_id` | string | yes | Stable canonical record identity. |
-| `run_id` | string | yes | Human-readable run identity within the source context. |
-| `status` | enum | yes | `planned`, `running`, `completed`, `aborted`, or `unknown`. |
-| `time_window` | object | yes | Start/end timestamps and time status. |
-| `source` | SourceReference | yes | Origin of the record. |
-| `context` | RunContext | no | Public, generic context labels. |
-| `observations` | Observation[] | no | Normalized parameter observations. |
-| `events` | Event[] | no | State changes, warnings, alarms, or annotations. |
-| `quality` | QualitySummary | yes | Aggregate quality state and flags. |
-| `extensions` | object | no | Namespaced additive fields. |
+| schema_version | yes | fixed string | The canonical contract version, currently 0.1. |
+| record_type | yes | fixed string | The literal run. |
+| run_id | yes | safe identifier | Public-safe identity for the run. |
+| status | yes | enum | planned, running, completed, aborted, or unknown. |
+| equipment | yes | object | Generic equipment class and optional public label. |
+| module | yes | object | Generic module class and optional public label. |
+| process_type | yes | free-form short text | A generic process or activity label, not a vendor recipe name. |
+| timestamps | yes | object | Start/end information plus time status. |
+| parameters | yes | array | Process inputs, setpoints, limits, targets, or context values. |
+| measurements | yes | array | Observed, derived, or result values associated with the run. |
+| events | yes | array | State changes, alarms, warnings, annotations, or other discrete events. |
+| metadata | yes | object | Dataset, generator, format, labels, and safe notes. |
+| provenance | yes | object | Where the record came from and how it was produced. |
+| quality | yes | object | Data-handling state and validation flags. |
+| extensions | no | object | Explicitly namespaced additive fields. |
 
-`RunContext` should prefer classes and public labels over real identifiers:
+The JSON Schema rejects unknown top-level fields. This is deliberate: silent acceptance would make downstream reports and agents unable to tell whether a field was understood.
 
-```json
+## Equipment, module, and process type
+
+Equipment and module use generic classes rather than serial numbers, site names, vendor models, or private identifiers.
+
+~~~json
 {
-  "equipment_class": "synthetic_chamber",
-  "process_family": "generic_pressure_temperature_demo",
-  "recipe_class": "synthetic_recipe_a",
-  "labels": ["synthetic", "training_fixture"]
-}
-```
-
-### Observation
-
-`Observation` represents a value observed or parsed from a run. It is not automatically a recommendation or a root-cause statement.
-
-| Field | Type | Required | Meaning |
-| --- | --- | --- | --- |
-| `observation_id` | string | yes | Stable observation identity. |
-| `parameter` | string | yes | Generic parameter key, for example `pressure`. |
-| `value` | JSON value | conditional | Required when `value_status` is `known`. |
-| `raw_value` | string | no | Safe original token before normalization. |
-| `value_type` | enum | yes | `number`, `string`, `boolean`, or `object`. |
-| `unit` | string | conditional | Required when a unit is known and applicable. |
-| `unit_status` | enum | yes | `known`, `missing`, `not_applicable`, or `unknown`. |
-| `value_status` | enum | yes | `known`, `missing`, `unknown`, `not_applicable`, or `invalid`. |
-| `observed_at` | timestamp | no | Point timestamp when available. |
-| `source` | SourceReference | yes | Source of the observation. |
-| `quality` | QualitySummary | yes | Observation-level quality. |
-| `tags` | string[] | no | Public, non-sensitive labels. |
-| `extensions` | object | no | Namespaced additive fields. |
-
-### Event
-
-`Event` represents a discrete event or state marker. It is separate from `Observation` so that an event does not need to be forced into a numeric parameter shape.
-
-| Field | Type | Required | Meaning |
-| --- | --- | --- | --- |
-| `event_id` | string | yes | Stable event identity. |
-| `event_type` | string | yes | Generic event class, for example `alarm`, `state_change`, or `operator_note`. |
-| `severity` | enum | yes | `info`, `warning`, `error`, `critical`, or `unknown`. |
-| `event_status` | enum | yes | `observed`, `cleared`, `unresolved`, or `unknown`. |
-| `message_code` | string | no | Synthetic or public code; no private alarm code is required. |
-| `message` | string | no | Sanitized human-readable description. |
-| `observed_at` | timestamp | conditional | Point timestamp when known. |
-| `time_window` | object | conditional | Start/end when the event spans an interval. |
-| `source` | SourceReference | yes | Source of the event. |
-| `quality` | QualitySummary | yes | Event-level quality. |
-| `extensions` | object | no | Namespaced additive fields. |
-
-### SourceReference
-
-`SourceReference` is a reusable object, not a free-form string hidden in each module.
-
-| Field | Type | Required | Meaning |
-| --- | --- | --- | --- |
-| `source_kind` | enum | yes | `synthetic`, `sanitized_public`, or `public`. |
-| `source_id` | string | yes | Stable public source identity. |
-| `locator` | string | no | Public fixture name, document section, or safe record locator. |
-| `content_hash` | string | no | Optional hash for reproducibility. |
-| `extraction_method` | string | no | Parser, generator, manual entry, or other method. |
-| `captured_at` | timestamp | no | When the source was captured or generated. |
-| `license` | string | no | License or redistribution note when applicable. |
-
-### QualitySummary
-
-`QualitySummary` is intentionally small in v0.1.
-
-| Field | Type | Required | Meaning |
-| --- | --- | --- | --- |
-| `quality_status` | enum | yes | Overall data handling status. |
-| `flags` | string[] | no | Machine-readable flags such as `missing_unit`. |
-| `notes` | string[] | no | Short, safe explanations. |
-
-Do not use `confidence` as a substitute for quality. If a future model produces a confidence-like score, it must be labeled with its source, scale, and interpretation.
-
-## RAG-oriented records
-
-### DocumentRecord
-
-`DocumentRecord` identifies a public or synthetic source document.
-
-| Field | Type | Required | Meaning |
-| --- | --- | --- | --- |
-| `schema_version` | string | yes | Canonical schema version. |
-| `record_type` | string | yes | Literal `"document"`. |
-| `document_id` | string | yes | Stable public document identity. |
-| `title` | string | yes | Safe document title. |
-| `document_type` | string | yes | Manual excerpt, procedure, glossary, or synthetic note. |
-| `language` | string | no | Language tag such as `en`. |
-| `version` | string | no | Source document version. |
-| `source` | SourceReference | yes | Source and redistribution context. |
-| `chunks` | DocumentChunk[] | no | Chunks prepared for retrieval. |
-| `quality` | QualitySummary | yes | Document-level quality. |
-
-### DocumentChunk
-
-`DocumentChunk` is the unit returned by a retrieval layer.
-
-```json
-{
-  "schema_version": "0.1",
-  "record_type": "document_chunk",
-  "chunk_id": "chunk-synth-0001",
-  "document_id": "doc-synth-pressure-basics",
-  "text": "Synthetic note: a pressure observation should carry an explicit unit.",
-  "source": {
-    "source_kind": "synthetic",
-    "source_id": "synthetic-document-set-v0.1",
-    "locator": "doc-synth-pressure-basics#unit-handling"
-  },
-  "retrieval_metadata": {
-    "section": "unit-handling",
-    "tags": ["units", "data-quality"]
-  },
-  "quality": {
-    "quality_status": "accepted",
-    "flags": [],
-    "notes": []
-  }
-}
-```
-
-`text` must be safe to redistribute. Embeddings, vector database IDs, and model-specific fields are not canonical v0.1 fields; they may be placed under `extensions` in a future implementation.
-
-### EvidenceReference
-
-Future reports and RAG answers should point to evidence explicitly:
-
-```json
-{
-  "evidence_id": "evidence-0001",
-  "evidence_type": "observation",
-  "record_id": "runrec-synth-0001",
-  "locator": "observations/obs-synth-0001",
-  "support_status": "direct"
-}
-```
-
-Recommended `support_status` values are `direct`, `derived`, `contextual`, and `insufficient`. A generated explanation must not be labeled `direct` unless it points to an observed field or source text.
-
-## Synthetic RunRecord example
-
-The following is a deliberately artificial example. It is not copied from a real tool, fab, customer, recipe, or platform.
-
-```json
-{
-  "schema_version": "0.1",
-  "record_type": "run",
-  "record_id": "runrec-synth-0001",
-  "run_id": "synthetic-run-0001",
-  "status": "completed",
-  "time_window": {
-    "start": "2026-01-15T10:00:00Z",
-    "end": "2026-01-15T10:12:00Z",
-    "time_status": "known"
-  },
-  "source": {
-    "source_kind": "synthetic",
-    "source_id": "synthetic-dataset-v0.1",
-    "locator": "generated:run-completed-001",
-    "extraction_method": "synthetic_generator"
-  },
-  "context": {
+  "equipment": {
     "equipment_class": "synthetic_chamber",
-    "process_family": "generic_pressure_temperature_demo",
-    "recipe_class": "synthetic_recipe_a",
-    "labels": ["synthetic", "training_fixture"]
+    "public_label": "demo-equipment"
   },
-  "observations": [
-    {
-      "observation_id": "obs-synth-0001",
-      "parameter": "pressure",
-      "value": 12.4,
-      "value_type": "number",
-      "unit": "Pa",
-      "unit_status": "known",
-      "value_status": "known",
-      "observed_at": "2026-01-15T10:04:00Z",
-      "source": {
-        "source_kind": "synthetic",
-        "source_id": "synthetic-dataset-v0.1",
-        "locator": "generated:run-completed-001#pressure-0001"
-      },
-      "quality": {
-        "quality_status": "accepted",
-        "flags": [],
-        "notes": []
-      }
-    },
-    {
-      "observation_id": "obs-synth-0002",
-      "parameter": "temperature",
-      "value": 68.0,
-      "value_type": "number",
-      "unit": "C",
-      "unit_status": "known",
-      "value_status": "known",
-      "observed_at": "2026-01-15T10:05:00Z",
-      "source": {
-        "source_kind": "synthetic",
-        "source_id": "synthetic-dataset-v0.1",
-        "locator": "generated:run-completed-001#temperature-0001"
-      },
-      "quality": {
-        "quality_status": "accepted",
-        "flags": [],
-        "notes": []
-      }
-    }
-  ],
-  "events": [
-    {
-      "event_id": "event-synth-0001",
-      "event_type": "state_change",
-      "severity": "info",
-      "event_status": "observed",
-      "message_code": "SYNTH_RUN_STARTED",
-      "message": "Synthetic run entered the active state.",
-      "observed_at": "2026-01-15T10:00:00Z",
-      "source": {
-        "source_kind": "synthetic",
-        "source_id": "synthetic-dataset-v0.1",
-        "locator": "generated:run-completed-001#event-0001"
-      },
-      "quality": {
-        "quality_status": "accepted",
-        "flags": [],
-        "notes": []
-      }
-    }
-  ],
-  "quality": {
-    "quality_status": "accepted",
-    "flags": [],
-    "notes": ["Synthetic fixture; not a production observation."]
-  }
+  "module": {
+    "module_class": "generic_process_module",
+    "public_label": "demo-module"
+  },
+  "process_type": "generic_pressure_temperature_demo"
 }
-```
+~~~
 
-## Future validation approach
+equipment_class, module_class, and process_type are free-form short text. They are intentionally not an enum in v0.1 because a public schema should not guess a universal taxonomy. Producers should prefer stable generic labels and document any controlled vocabulary in a future extension.
 
-Implementation is intentionally deferred, but future fixtures should be checked in layers:
+## Timestamps
 
-1. **Structural validation** — required fields, types, enum values, and record type.
-2. **Semantic validation** — timestamp ordering, unit status consistency, stable IDs, and value status rules.
-3. **Provenance validation** — every observation, event, document, and chunk has a safe source reference.
-4. **Safety validation** — synthetic/public source markers, no private paths, no secrets, and no prohibited identifiers.
-5. **Downstream validation** — parser output can feed report generation; retrieved chunks can produce source-linked evidence references.
+The timestamps object contains optional start and end values plus required time_status:
 
-The next implementation phase may add a machine-readable JSON Schema and tests. This document does not claim that either exists yet.
+| time_status | Meaning |
+| --- | --- |
+| known | A trustworthy UTC timestamp is available. |
+| partial | Some trustworthy timing is available, but the interval is incomplete. |
+| unknown | No trustworthy timing is available. |
+| ambiguous | A timestamp exists but its interpretation or timezone is unresolved. |
+| invalid | The supplied timestamp failed validation. |
+
+Timestamps use ISO 8601 date-time strings normalized to UTC, for example 2026-01-15T10:00:00Z. The model does not silently convert an unknown timezone to UTC. When time is unavailable, omit start/end and use the appropriate status.
+
+## Parameters and measurements
+
+Parameters and measurements are separate arrays because a setpoint or input is not the same thing as an observed result.
+
+### Shared value fields
+
+Each parameter or measurement has:
+
+| Field | Required | Meaning |
+| --- | --- | --- |
+| value | conditional | Normalized scalar value, required only when value_status is known. |
+| raw_value | no | Safe original token, if retaining it is necessary and safe. |
+| value_type | yes | number, string, or boolean. It describes the expected/parsed scalar type even when the value is unavailable. |
+| value_status | yes | known, missing, unknown, not_applicable, or invalid. |
+| unit | conditional | Explicit unit string, required only when unit_status is known. |
+| unit_status | yes | known, missing, unknown, or not_applicable. |
+
+The core schema does not use null to represent missingness. For example, an unavailable value is represented by value_status unknown with value omitted. Missing values must not be converted to zero. A unit must not be inferred from a parameter name.
+
+The unit field is a short free-form string in v0.1. It may contain a public unit such as Pa, W, C, or s, but v0.1 does not pretend to define a complete metrology vocabulary. Future work may add a reviewed unit registry or a namespaced mapping.
+
+### Parameter-specific fields
+
+Parameters have a stable parameter_id, a free-form name, an optional parameter_kind enum, optional effective_at timestamp, item-level provenance, optional item-level quality, and optional namespaced extensions.
+
+parameter_kind values are setpoint, input, limit, target, context, and other. The parameter name remains free-form so the model does not bind early to a private recipe vocabulary.
+
+### Measurement-specific fields
+
+Measurements have a stable measurement_id, a free-form name, an optional measurement_kind enum, optional observed_at timestamp, item-level provenance, optional item-level quality, and optional namespaced extensions.
+
+measurement_kind values are signal, result, derived, and other. A derived value is still not a root-cause conclusion; it must retain provenance and quality information.
+
+## Events, alarms, and warnings
+
+Events are discrete records rather than overloaded measurements. event_type is an enum with state_change, alarm, warning, annotation, and other. severity is an enum with info, warning, error, critical, and unknown. event_status is an enum with observed, cleared, unresolved, and unknown.
+
+An event may include a safe public code, a message, an observed_at timestamp, item-level provenance, and quality. Message text is untrusted input. A message can be quoted in a report or retrieval result only as source text; it cannot authorize commands, change access controls, or instruct an agent.
+
+## Metadata and provenance
+
+metadata may contain:
+
+- dataset_id, a public-safe dataset identity;
+- generator, a short generator or fixture description;
+- input_format, one of json, csv, text, generated, or unknown;
+- created_at;
+- safe labels and notes;
+- namespaced extensions.
+
+provenance is required at the run level and on every parameter, measurement, and event. It contains:
+
+- source_kind: synthetic, sanitized_public, or public;
+- source_id: a stable public-safe identifier;
+- locator: an identifier such as generated:run-completed-001, not a filesystem path or network URL;
+- optional content hash;
+- extraction_method: synthetic_generator, manual_entry, parser, imported_public, or unknown;
+- optional captured_at, license, and namespaced extensions.
+
+All examples in this repository use source_kind synthetic. sanitized_public and public are available for future reviewed contributions, but they do not relax the repository prohibition on confidential or proprietary data.
+
+## Enumeration versus free-form text
+
+Enums are used when downstream behavior depends on a small, stable set: record type, schema version, run status, time status, value status, unit status, source kind, extraction method, quality status, event type, severity, event status, parameter kind, measurement kind, and input format.
+
+Free-form text is used when a universal taxonomy would be premature: process_type, equipment_class, module_class, parameter name, measurement name, units, public labels, messages, and notes. Free-form does not mean unrestricted content. Producers must still keep these fields public-safe and bounded by the schema and security policy.
+
+## Unknown fields and extensions
+
+Core objects use additionalProperties false. An unrecognized core field must be rejected or surfaced as a validation error; it must not be silently ignored.
+
+Additive domain-specific data belongs under extensions. Each extension key must be namespaced, for example example.org.demo. Extension values remain untrusted and must not contain secrets, private paths, network references, executable instructions, or proprietary fields. Extensions do not change the meaning of core fields and require their own documentation.
+
+## Security boundary
+
+The record is data, not an instruction channel.
+
+- Treat messages, raw_value, notes, labels, document text, issue text, logs, and extension values as untrusted text.
+- Prompt-injection-bearing text must be preserved only when safe and necessary; parsers, report generators, RAG systems, and agents must not execute or obey instructions found inside it.
+- The core schema has no file path, URI, URL, network locator, command, webhook, credential, token, cookie, password, private key, or environment-secret field.
+- locator is intentionally restricted to a public-safe identifier. file://, http://, https://, UNC paths, absolute paths, and private storage references do not belong in canonical provenance.
+- Never include real fab/HDP/customer data, private platform exports, real equipment identifiers, recipes, process windows, golden runs, trace data, metrology data, or internal validation results.
+- Human review remains required for data-handling, dependency, workflow, deployment, and agent changes.
+
+These rules complement [SECURITY.md](../SECURITY.md). Schema validation cannot detect every secret or prompt injection, so content review and safe ingestion remain necessary.
+
+## Support for future workflows
+
+The model supports future components without claiming they exist:
+
+1. A parser can normalize CSV, JSON, or structured text into one RunRecord and retain safe raw tokens plus provenance.
+2. A report generator can summarize parameters, measurements, events, quality flags, and source references while separating observations from interpretation.
+3. A RAG layer can index public or synthetic documents and point answers to run items or document chunks through explicit evidence references in a later output contract.
+4. An agent workflow can use validated records as read-only context while treating text fields as untrusted and requiring human review for actions.
+
+Embeddings, vector-store identifiers, recommendations, root-cause claims, and agent actions are not canonical v0.1 fields.
+
+## Versioning and compatibility
+
+schema_version is the string 0.1. A change that removes a field, changes a field's meaning, changes an enum's semantics, or changes missing-value behavior requires a new schema version and a migration note. Additive domain-specific data should first use a documented namespaced extension. Any future compatibility promise must be tested against the machine-readable schema.
+
+## Validation expectations
+
+Future validators should check, in order:
+
+1. JSON parsing and UTF-8 decoding.
+2. Required fields, types, enums, timestamps, and unknown-field rejection.
+3. Conditional value/unit rules and stable identifiers.
+4. Provenance on the run and every item.
+5. Synthetic/public safety, including secrets, private references, and prohibited identifiers.
+6. Downstream traceability for report and retrieval outputs.
+
+The two checked-in fixtures are deliberately small validation inputs, not evidence of production readiness.

@@ -1,0 +1,603 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/semiconductor-ai-engineering/semiconductor-ai-engineering-toolkit/blob/main/schema/run_record_v0_1.schema.json",
+  "title": "Semiconductor Engineering Run Record v0.1",
+  "description": "A public, run-centric interchange contract for synthetic or explicitly redistributable semiconductor engineering data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "run_id",
+    "status",
+    "equipment",
+    "module",
+    "process_type",
+    "timestamps",
+    "parameters",
+    "measurements",
+    "events",
+    "metadata",
+    "provenance",
+    "quality"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1"
+    },
+    "record_type": {
+      "const": "run"
+    },
+    "run_id": {
+      "$ref": "#/$defs/safe_id"
+    },
+    "status": {
+      "enum": [
+        "planned",
+        "running",
+        "completed",
+        "aborted",
+        "unknown"
+      ]
+    },
+    "equipment": {
+      "$ref": "#/$defs/equipment"
+    },
+    "module": {
+      "$ref": "#/$defs/module"
+    },
+    "process_type": {
+      "$ref": "#/$defs/short_text"
+    },
+    "timestamps": {
+      "$ref": "#/$defs/timestamps"
+    },
+    "parameters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/parameter"
+      }
+    },
+    "measurements": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/measurement"
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/event"
+      }
+    },
+    "metadata": {
+      "$ref": "#/$defs/metadata"
+    },
+    "provenance": {
+      "$ref": "#/$defs/provenance"
+    },
+    "quality": {
+      "$ref": "#/$defs/quality"
+    },
+    "extensions": {
+      "$ref": "#/$defs/extensions"
+    }
+  },
+  "$defs": {
+    "safe_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "short_text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[^\\r\\n]+$"
+    },
+    "long_text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048,
+      "pattern": "^[^\\r\\n]*$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Explicitly namespaced additive fields. Extension values remain untrusted data and must follow the repository security policy.",
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9-]+)+$"
+      },
+      "additionalProperties": true
+    },
+    "timestamps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "time_status"
+      ],
+      "properties": {
+        "start": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "end": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "time_status": {
+          "enum": [
+            "known",
+            "partial",
+            "unknown",
+            "ambiguous",
+            "invalid"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "time_status": {
+                "enum": [
+                  "known",
+                  "partial"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "start"
+            ]
+          }
+        }
+      ]
+    },
+    "equipment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "equipment_class"
+      ],
+      "properties": {
+        "equipment_class": {
+          "$ref": "#/$defs/short_text"
+        },
+        "public_label": {
+          "$ref": "#/$defs/short_text"
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        }
+      }
+    },
+    "module": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "module_class"
+      ],
+      "properties": {
+        "module_class": {
+          "$ref": "#/$defs/short_text"
+        },
+        "public_label": {
+          "$ref": "#/$defs/short_text"
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_kind",
+        "source_id",
+        "extraction_method"
+      ],
+      "properties": {
+        "source_kind": {
+          "enum": [
+            "synthetic",
+            "sanitized_public",
+            "public"
+          ]
+        },
+        "source_id": {
+          "$ref": "#/$defs/safe_id"
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:#-]*$"
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "extraction_method": {
+          "enum": [
+            "synthetic_generator",
+            "manual_entry",
+            "parser",
+            "imported_public",
+            "unknown"
+          ]
+        },
+        "captured_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "license": {
+          "$ref": "#/$defs/short_text"
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "quality_status"
+      ],
+      "properties": {
+        "quality_status": {
+          "enum": [
+            "accepted",
+            "uncertain",
+            "incomplete",
+            "invalid",
+            "not_assessed"
+          ]
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/safe_id"
+          },
+          "uniqueItems": true
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/long_text"
+          }
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        }
+      }
+    },
+    "scalar_value": {
+      "type": [
+        "number",
+        "string",
+        "boolean"
+      ],
+      "maxLength": 512
+    },
+    "value_status": {
+      "enum": [
+        "known",
+        "missing",
+        "unknown",
+        "not_applicable",
+        "invalid"
+      ]
+    },
+    "unit_status": {
+      "enum": [
+        "known",
+        "missing",
+        "unknown",
+        "not_applicable"
+      ]
+    },
+    "value_fields": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/scalar_value"
+        },
+        "raw_value": {
+          "type": "string",
+          "maxLength": 512
+        },
+        "value_type": {
+          "enum": [
+            "number",
+            "string",
+            "boolean"
+          ]
+        },
+        "value_status": {
+          "$ref": "#/$defs/value_status"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^[^\\r\\n]+$"
+        },
+        "unit_status": {
+          "$ref": "#/$defs/unit_status"
+        }
+      },
+      "required": [
+        "value_type",
+        "value_status",
+        "unit_status"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "value_status": {
+                "const": "known"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "value"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "value_status": {
+                "enum": [
+                  "missing",
+                  "unknown",
+                  "not_applicable",
+                  "invalid"
+                ]
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "value"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "unit_status": {
+                "const": "known"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "unit"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "unit_status": {
+                "enum": [
+                  "missing",
+                  "unknown",
+                  "not_applicable"
+                ]
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "unit"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "parameter": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/value_fields"
+        },
+        {
+          "type": "object",
+          "required": [
+            "parameter_id",
+            "name",
+            "provenance"
+          ],
+          "properties": {
+            "parameter_id": {
+              "$ref": "#/$defs/safe_id"
+            },
+            "name": {
+              "$ref": "#/$defs/short_text"
+            },
+            "parameter_kind": {
+              "enum": [
+                "setpoint",
+                "input",
+                "limit",
+                "target",
+                "context",
+                "other"
+              ]
+            },
+            "effective_at": {
+              "$ref": "#/$defs/timestamp"
+            },
+            "provenance": {
+              "$ref": "#/$defs/provenance"
+            },
+            "quality": {
+              "$ref": "#/$defs/quality"
+            },
+            "extensions": {
+              "$ref": "#/$defs/extensions"
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "measurement": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/value_fields"
+        },
+        {
+          "type": "object",
+          "required": [
+            "measurement_id",
+            "name",
+            "provenance"
+          ],
+          "properties": {
+            "measurement_id": {
+              "$ref": "#/$defs/safe_id"
+            },
+            "name": {
+              "$ref": "#/$defs/short_text"
+            },
+            "measurement_kind": {
+              "enum": [
+                "signal",
+                "result",
+                "derived",
+                "other"
+              ]
+            },
+            "observed_at": {
+              "$ref": "#/$defs/timestamp"
+            },
+            "provenance": {
+              "$ref": "#/$defs/provenance"
+            },
+            "quality": {
+              "$ref": "#/$defs/quality"
+            },
+            "extensions": {
+              "$ref": "#/$defs/extensions"
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "event_type",
+        "severity",
+        "event_status",
+        "provenance"
+      ],
+      "properties": {
+        "event_id": {
+          "$ref": "#/$defs/safe_id"
+        },
+        "event_type": {
+          "enum": [
+            "state_change",
+            "alarm",
+            "warning",
+            "annotation",
+            "other"
+          ]
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "warning",
+            "error",
+            "critical",
+            "unknown"
+          ]
+        },
+        "event_status": {
+          "enum": [
+            "observed",
+            "cleared",
+            "unresolved",
+            "unknown"
+          ]
+        },
+        "code": {
+          "$ref": "#/$defs/safe_id"
+        },
+        "message": {
+          "$ref": "#/$defs/long_text"
+        },
+        "observed_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        },
+        "quality": {
+          "$ref": "#/$defs/quality"
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dataset_id": {
+          "$ref": "#/$defs/safe_id"
+        },
+        "generator": {
+          "$ref": "#/$defs/short_text"
+        },
+        "input_format": {
+          "enum": [
+            "json",
+            "csv",
+            "text",
+            "generated",
+            "unknown"
+          ]
+        },
+        "created_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/safe_id"
+          },
+          "uniqueItems": true
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/long_text"
+          }
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        }
+      }
+    }
+  }
+}
