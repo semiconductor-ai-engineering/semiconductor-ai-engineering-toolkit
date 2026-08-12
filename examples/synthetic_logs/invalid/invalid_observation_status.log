@@ -1,0 +1,4 @@
+RUN|run_id=synthetic-log-bad-status-001|status=completed|start=2026-03-12T21:00:00Z|end=2026-03-12T21:05:00Z
+CONTEXT|equipment_class=synthetic_chamber|module_class=synthetic_module|process_type=synthetic_bad_status_demo
+OBS|id=obs-bad-status-001|parameter=pressure|value=12|value_type=number|value_status=unknown|unit=Pa|unit_status=known|timestamp=2026-03-12T21:02:00Z
+QUALITY|status=accepted

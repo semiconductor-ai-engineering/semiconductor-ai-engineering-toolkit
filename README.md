@@ -8,7 +8,7 @@ An open-source foundation for exploring AI-assisted workflows in semiconductor e
 
 ## Status
 
-This project is in the design and initial-build stage (`pre-alpha`). The public baseline, run-centric data schema, validation toolkit, and synthetic dataset are documented. Phase 0.5.5 prepares an alpha release but does not create a tag or GitHub Release. The project does not claim production readiness, customer validation, or connection to a live fab or equipment system.
+This project is in the design and initial-build stage (`pre-alpha`). The public baseline, run-centric data schema, validation toolkit, synthetic dataset, and `v0.1.0-alpha.1` release are available. Phase 0.6 adds a deliberately small synthetic line-log parser prototype on a reviewable feature branch. The project does not claim production readiness, customer validation, or connection to a live fab or equipment system.
 
 ## Quick Start
 
@@ -21,6 +21,7 @@ python -m venv .venv
 .venv\Scripts\Activate.ps1
 python -m pip install -e .
 semi-ai validate examples/synthetic_dataset_v0_1/runs/completed/run_completed_001.json
+semi-ai parse examples/synthetic_logs/run_completed_001.log
 ```
 
 On macOS or Linux, activate the environment with `source .venv/bin/activate` instead. Expected validation output:
@@ -38,7 +39,7 @@ For local tests, install the test extra and run `python -m pytest -q`.
 - `engineering report generator`: turn structured run data into traceable Markdown reports;
 - `knowledge retrieval demo`: demonstrate local retrieval over public or synthetic engineering documents with source references.
 
-The current milestone contains documentation, governance files, a machine-readable JSON Schema, small synthetic fixtures, a local schema validation toolkit, and a fully synthetic dataset v0.1. Parser and workflow implementation will be added in later, reviewable steps.
+The current milestone contains documentation, governance files, a machine-readable JSON Schema, small synthetic fixtures, a local schema validation toolkit, a fully synthetic dataset v0.1, and a deterministic parser for the deliberately simple synthetic line-log format documented in [Synthetic Log Parser v0.1](docs/SYNTHETIC_LOG_PARSER_V0_1.md). The parser is not a general vendor-log adapter.
 
 ## Explicit boundary
 
@@ -60,12 +61,14 @@ This is a public, general-purpose foundation. It is not a public mirror of any p
 - [Data model v0.1](docs/DATA_MODEL_V0_1.md)
 - [Machine-readable run schema](schema/run_record_v0_1.schema.json)
 - [Validation toolkit](docs/VALIDATION_TOOLKIT_V0_1.md)
+- [Synthetic log parser v0.1](docs/SYNTHETIC_LOG_PARSER_V0_1.md)
 - [Changelog](CHANGELOG.md)
 - [Public release readiness](docs/RELEASE_READINESS_V0_1.md)
 - [Security policy](SECURITY.md)
 - [Contributing guide](CONTRIBUTING.md)
 - [Synthetic examples policy](examples/README.md)
 - [Synthetic run fixtures](examples/synthetic_data/)
+- [Synthetic log fixtures](examples/synthetic_logs/)
 - [Synthetic dataset v0.1](examples/synthetic_dataset_v0_1/)
 
 ## Development philosophy
@@ -77,7 +80,7 @@ The project will grow through small, inspectable commits:
 3. synthetic RunRecord fixtures;
 4. schema validation toolkit;
 5. synthetic dataset v0.1;
-6. parser implementation;
+6. synthetic log parser prototype;
 7. tests and expanded CI.
 
 The project will prefer deterministic inputs, visible errors, source-linked outputs, and human review over broad automation claims.

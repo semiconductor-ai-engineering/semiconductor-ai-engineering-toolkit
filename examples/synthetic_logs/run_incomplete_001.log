@@ -1,0 +1,7 @@
+# Fully synthetic line log with missing and unknown values.
+RUN|run_id=synthetic-log-incomplete-001|status=unknown
+CONTEXT|equipment_class=synthetic_chamber|module_class=synthetic_unknown_module|process_family=synthetic_incomplete_demo|recipe_class=synthetic_recipe_unknown
+PARAM|id=param-unknown-target-001|name=pressure_target|kind=context|raw_value=not_reported|value_type=number|value_status=unknown|unit_status=unknown
+OBS|id=obs-missing-signal-001|parameter=pressure|kind=signal|raw_value=not_recorded|value_type=number|value_status=missing|unit_status=missing
+EVENT|id=evt-unknown-state-001|type=annotation|severity=unknown|status=unknown|code=SYN_UNKNOWN_001|message=Synthetic run state was not recorded|timestamp=2026-03-04T13:01:00Z
+QUALITY|status=incomplete|flags=synthetic_missing_value|notes=Synthetic incomplete fixture.

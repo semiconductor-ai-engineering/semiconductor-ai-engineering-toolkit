@@ -1,0 +1,4 @@
+RUN|run_id=synthetic-log-malformed-001|status=completed|start=2026-03-05T14:00:00Z|end=2026-03-05T14:05:00Z
+CONTEXT|equipment_class=synthetic_chamber|module_class=synthetic_module|process_type=synthetic_malformed_demo
+OBS|id=obs-malformed-001|parameter=pressure|value
+QUALITY|status=accepted

@@ -226,6 +226,7 @@
         "extraction_method": {
           "enum": [
             "synthetic_generator",
+            "synthetic_log_parser_v0.1",
             "manual_entry",
             "parser",
             "imported_public",

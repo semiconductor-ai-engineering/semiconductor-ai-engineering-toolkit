@@ -1,0 +1,3 @@
+RUN|run_id=synthetic-log-bad-time-001|status=completed|start=not-a-timestamp|end=2026-03-10T19:05:00Z
+CONTEXT|equipment_class=synthetic_chamber|module_class=synthetic_module|process_type=synthetic_bad_time_demo
+QUALITY|status=accepted
