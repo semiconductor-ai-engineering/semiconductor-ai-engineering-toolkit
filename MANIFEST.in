@@ -1,0 +1,3 @@
+include LICENSE
+include README.md
+include schema/run_record_v0_1.schema.json

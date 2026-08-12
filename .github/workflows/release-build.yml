@@ -1,0 +1,54 @@
+name: Release build verification
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-smoke:
+    name: Build and wheel smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install build tooling
+        run: python -m pip install "build>=1.2,<2"
+
+      - name: Build wheel and source distribution
+        run: python -m build --outdir dist
+
+      - name: Verify build artifacts
+        shell: bash
+        run: |
+          test -n "$(find dist -maxdepth 1 -type f -name '*.whl' -print -quit)"
+          test -n "$(find dist -maxdepth 1 -type f -name '*.tar.gz' -print -quit)"
+
+      - name: Create clean wheel environment
+        run: python -m venv .release-venv
+
+      - name: Install built wheel
+        shell: bash
+        run: |
+          source .release-venv/bin/activate
+          wheel_path="$(find dist -maxdepth 1 -type f -name '*.whl' -print -quit)"
+          test -n "$wheel_path"
+          python -m pip install "$wheel_path"
+          python -m pip check
+
+      - name: Run CLI smoke validation from wheel
+        shell: bash
+        run: |
+          source .release-venv/bin/activate
+          semi-ai validate examples/synthetic_dataset_v0_1/runs/completed/run_completed_001.json

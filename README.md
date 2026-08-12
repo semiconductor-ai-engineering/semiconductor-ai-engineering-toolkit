@@ -1,10 +1,35 @@
 # Semiconductor AI Engineering Toolkit
 
+[![CI](https://github.com/semiconductor-ai-engineering/semiconductor-ai-engineering-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/semiconductor-ai-engineering/semiconductor-ai-engineering-toolkit/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python >=3.10](https://img.shields.io/badge/python-%3E%3D3.10-3776AB.svg)](https://www.python.org/)
+
 An open-source foundation for exploring AI-assisted workflows in semiconductor engineering.
 
 ## Status
 
-This project is in the design and initial-build stage (`pre-alpha`). The public baseline and first run-centric data schema are now documented. The project does not claim production readiness, customer validation, or connection to a live fab or equipment system.
+This project is in the design and initial-build stage (`pre-alpha`). The public baseline, run-centric data schema, validation toolkit, and synthetic dataset are documented. Phase 0.5.5 prepares an alpha release but does not create a tag or GitHub Release. The project does not claim production readiness, customer validation, or connection to a live fab or equipment system.
+
+## Quick Start
+
+From PowerShell on Windows:
+
+```powershell
+git clone https://github.com/semiconductor-ai-engineering/semiconductor-ai-engineering-toolkit.git
+cd semiconductor-ai-engineering-toolkit
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -e .
+semi-ai validate examples/synthetic_dataset_v0_1/runs/completed/run_completed_001.json
+```
+
+On macOS or Linux, activate the environment with `source .venv/bin/activate` instead. Expected validation output:
+
+```text
+Valid RunRecord v0.1
+```
+
+For local tests, install the test extra and run `python -m pytest -q`.
 
 ## V0.1 scope
 
@@ -35,6 +60,8 @@ This is a public, general-purpose foundation. It is not a public mirror of any p
 - [Data model v0.1](docs/DATA_MODEL_V0_1.md)
 - [Machine-readable run schema](schema/run_record_v0_1.schema.json)
 - [Validation toolkit](docs/VALIDATION_TOOLKIT_V0_1.md)
+- [Changelog](CHANGELOG.md)
+- [Public release readiness](docs/RELEASE_READINESS_V0_1.md)
 - [Security policy](SECURITY.md)
 - [Contributing guide](CONTRIBUTING.md)
 - [Synthetic examples policy](examples/README.md)
