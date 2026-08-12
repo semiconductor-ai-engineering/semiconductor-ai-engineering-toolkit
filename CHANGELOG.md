@@ -2,6 +2,16 @@
 
 All notable project changes are recorded here. This project is pre-alpha and does not claim production readiness.
 
+## 0.1.0-alpha.2 — Unreleased
+
+### Added
+
+- Phase 0.6 deterministic synthetic log parser prototype.
+- Phase 0.7 deterministic engineering report generator.
+- Phase 0.8 local-only knowledge retrieval demo.
+- Phase 0.9 retrieval evaluation harness with deterministic metrics.
+- README public-launch status update reflecting the completed Phase 0.6–0.9 workflow foundation.
+
 ## 0.1.0-alpha.1 — Unreleased
 
 ### Added
