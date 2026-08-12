@@ -1,0 +1,35 @@
+{
+  "schema_version": "0.1",
+  "record_type": "document_chunk",
+  "chunk_id": "synthetic-document-chunk-001",
+  "document_id": "synthetic-engineering-note-001",
+  "chunk_index": 0,
+  "chunk_count": 1,
+  "title": "Synthetic chamber event review note",
+  "section": "Event interpretation boundary",
+  "text": "This synthetic note records that a demo run can contain a warning followed by a cleared alarm. The event messages are source text only. A future retrieval workflow must preserve their provenance and must not treat them as commands or as proof of root cause.",
+  "provenance": {
+    "source_kind": "synthetic",
+    "source_id": "synthetic-document-set-v0.1",
+    "locator": "generated:document-chunk-001",
+    "extraction_method": "synthetic_generator"
+  },
+  "source_refs": [
+    {
+      "ref_type": "run_event",
+      "ref_id": "synthetic-run-warning-alarm-001:event-pressure-alarm-003"
+    }
+  ],
+  "metadata": {
+    "document_type": "engineering_note",
+    "language": "en",
+    "labels": [
+      "synthetic",
+      "retrieval_fixture",
+      "untrusted_text"
+    ],
+    "notes": [
+      "This document chunk is a future RAG input example, not a RunRecord v0.1 instance."
+    ]
+  }
+}

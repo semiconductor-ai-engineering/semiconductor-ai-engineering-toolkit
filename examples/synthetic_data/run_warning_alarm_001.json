@@ -1,0 +1,269 @@
+{
+  "schema_version": "0.1",
+  "record_type": "run",
+  "run_id": "synthetic-run-warning-alarm-001",
+  "status": "completed",
+  "equipment": {
+    "equipment_class": "synthetic_chamber",
+    "public_label": "demo-equipment"
+  },
+  "module": {
+    "module_class": "generic_process_module",
+    "public_label": "demo-module"
+  },
+  "process_type": "generic_plasma_conditioning_demo",
+  "timestamps": {
+    "start": "2026-01-17T09:30:00Z",
+    "end": "2026-01-17T09:42:00Z",
+    "time_status": "known"
+  },
+  "parameters": [
+    {
+      "parameter_id": "param-pressure-target-003",
+      "name": "pressure_target",
+      "parameter_kind": "target",
+      "value": 12.0,
+      "raw_value": "12.0",
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "Pa",
+      "unit_status": "known",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-warning-alarm-001#parameter-pressure",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": [],
+        "notes": []
+      }
+    },
+    {
+      "parameter_id": "param-carrier-flow-003",
+      "name": "carrier_flow",
+      "parameter_kind": "input",
+      "value": 40.0,
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "sccm",
+      "unit_status": "known",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-warning-alarm-001#parameter-flow",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": [],
+        "notes": []
+      }
+    },
+    {
+      "parameter_id": "param-source-power-003",
+      "name": "source_power",
+      "parameter_kind": "setpoint",
+      "value": 180.0,
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "W",
+      "unit_status": "known",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-warning-alarm-001#parameter-power",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": [],
+        "notes": []
+      }
+    }
+  ],
+  "measurements": [
+    {
+      "measurement_id": "measurement-pressure-003",
+      "name": "pressure",
+      "measurement_kind": "signal",
+      "value": 12.4,
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "Pa",
+      "unit_status": "known",
+      "observed_at": "2026-01-17T09:34:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-warning-alarm-001#measurement-pressure",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": [],
+        "notes": []
+      }
+    },
+    {
+      "measurement_id": "measurement-flow-003",
+      "name": "carrier_flow",
+      "measurement_kind": "signal",
+      "value": 39.6,
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "sccm",
+      "unit_status": "known",
+      "observed_at": "2026-01-17T09:35:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-warning-alarm-001#measurement-flow",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": [],
+        "notes": []
+      }
+    },
+    {
+      "measurement_id": "measurement-module-temperature-003",
+      "name": "module_temperature",
+      "measurement_kind": "result",
+      "value": 72.0,
+      "value_type": "number",
+      "value_status": "known",
+      "unit": "C",
+      "unit_status": "known",
+      "observed_at": "2026-01-17T09:40:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-warning-alarm-001#measurement-temperature",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": [],
+        "notes": []
+      }
+    }
+  ],
+  "events": [
+    {
+      "event_id": "event-run-started-003",
+      "event_type": "state_change",
+      "severity": "info",
+      "event_status": "observed",
+      "code": "SYNTH_RUN_STARTED",
+      "message": "Synthetic conditioning run entered the active state.",
+      "observed_at": "2026-01-17T09:30:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-warning-alarm-001#event-started",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": [],
+        "notes": []
+      }
+    },
+    {
+      "event_id": "event-flow-warning-003",
+      "event_type": "warning",
+      "severity": "warning",
+      "event_status": "observed",
+      "code": "SYNTH_FLOW_DRIFT",
+      "message": "Synthetic flow signal crossed the demo warning threshold.",
+      "observed_at": "2026-01-17T09:35:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-warning-alarm-001#event-warning",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": [],
+        "notes": []
+      }
+    },
+    {
+      "event_id": "event-pressure-alarm-003",
+      "event_type": "alarm",
+      "severity": "error",
+      "event_status": "cleared",
+      "code": "SYNTH_PRESSURE_SPIKE",
+      "message": "Synthetic pressure signal exceeded the demo alarm threshold and later returned to the target band.",
+      "observed_at": "2026-01-17T09:36:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-warning-alarm-001#event-alarm",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": [],
+        "notes": [
+          "The cleared status is part of the synthetic event sequence; it is not a root-cause conclusion."
+        ]
+      }
+    },
+    {
+      "event_id": "event-run-completed-003",
+      "event_type": "state_change",
+      "severity": "info",
+      "event_status": "observed",
+      "code": "SYNTH_RUN_COMPLETED",
+      "message": "Synthetic conditioning run entered the completed state.",
+      "observed_at": "2026-01-17T09:42:00Z",
+      "provenance": {
+        "source_kind": "synthetic",
+        "source_id": "synthetic-dataset-v0.1",
+        "locator": "generated:run-warning-alarm-001#event-completed",
+        "extraction_method": "synthetic_generator"
+      },
+      "quality": {
+        "quality_status": "accepted",
+        "flags": [],
+        "notes": []
+      }
+    }
+  ],
+  "metadata": {
+    "dataset_id": "synthetic-dataset-v0.1",
+    "generator": "hand-authored deterministic fixture",
+    "input_format": "generated",
+    "created_at": "2026-01-17T10:00:00Z",
+    "labels": [
+      "synthetic",
+      "warning_alarm",
+      "training_fixture"
+    ],
+    "notes": [
+      "All values, thresholds, event codes, and messages are invented for public schema testing.",
+      "Warning and alarm events are included to exercise event status handling before validator implementation."
+    ]
+  },
+  "provenance": {
+    "source_kind": "synthetic",
+    "source_id": "synthetic-dataset-v0.1",
+    "locator": "generated:run-warning-alarm-001",
+    "extraction_method": "synthetic_generator"
+  },
+  "quality": {
+    "quality_status": "accepted",
+    "flags": [
+      "warning_observed",
+      "alarm_cleared"
+    ],
+    "notes": [
+      "Synthetic fixture; event presence does not imply a production fault or root-cause finding."
+    ]
+  }
+}
