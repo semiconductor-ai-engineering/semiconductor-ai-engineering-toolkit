@@ -1,0 +1,7 @@
+# Fully synthetic line log for an aborted run.
+RUN|run_id=synthetic-log-aborted-001|status=aborted|start=2026-03-03T12:00:00Z|end=2026-03-03T12:06:00Z
+CONTEXT|equipment_class=synthetic_chamber|module_class=synthetic_control_module|process_family=synthetic_abort_demo|recipe_class=synthetic_recipe_c
+PARAM|id=param-duration-target-001|name=duration_target|kind=target|value=10.0|value_type=number|value_status=known|unit=s|unit_status=known|timestamp=2026-03-03T12:00:00Z
+OBS|id=obs-final-signal-001|parameter=final_signal|kind=result|raw_value=not_collected|value_type=number|value_status=not_applicable|unit_status=not_applicable|timestamp=2026-03-03T12:06:00Z
+EVENT|id=evt-abort-001|type=alarm|severity=error|status=unresolved|code=SYN_ABORT_001|message=Synthetic run stopped before final observation|timestamp=2026-03-03T12:06:00Z
+QUALITY|status=uncertain|flags=synthetic_abort_marker|notes=Synthetic aborted fixture.

@@ -1,0 +1,4 @@
+RUN|run_id=synthetic-log-unknown-type-001|status=completed|start=2026-03-09T18:00:00Z|end=2026-03-09T18:05:00Z
+CONTEXT|equipment_class=synthetic_chamber|module_class=synthetic_module|process_type=synthetic_unknown_type_demo
+UNKNOWN|id=synthetic-unknown-001|message=This record type is intentionally unsupported
+QUALITY|status=accepted

@@ -1,0 +1,4 @@
+RUN|run_id=synthetic-log-duplicate-001|status=running|start=2026-03-08T17:00:00Z
+RUN|run_id=synthetic-log-duplicate-002|status=completed|start=2026-03-08T17:01:00Z|end=2026-03-08T17:05:00Z
+CONTEXT|equipment_class=synthetic_chamber|module_class=synthetic_module|process_type=synthetic_duplicate_demo
+QUALITY|status=accepted

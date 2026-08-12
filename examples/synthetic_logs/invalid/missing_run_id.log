@@ -1,0 +1,3 @@
+RUN|status=completed|start=2026-03-06T15:00:00Z|end=2026-03-06T15:05:00Z
+CONTEXT|equipment_class=synthetic_chamber|module_class=synthetic_module|process_type=synthetic_missing_id_demo
+QUALITY|status=accepted

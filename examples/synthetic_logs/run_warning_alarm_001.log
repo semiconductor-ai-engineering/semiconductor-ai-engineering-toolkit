@@ -1,0 +1,9 @@
+# Fully synthetic line log with warning and alarm events.
+RUN|run_id=synthetic-log-warning-001|status=completed|start=2026-03-02T11:00:00Z|end=2026-03-02T11:18:00Z
+CONTEXT|equipment_class=synthetic_chamber|module_class=synthetic_pressure_module|process_type=synthetic_drift_demo|recipe_class=synthetic_recipe_b
+PARAM|id=param-pressure-target-002|name=pressure_target|kind=target|value=15.0|value_type=number|value_status=known|unit=Pa|unit_status=known|timestamp=2026-03-02T11:00:00Z
+OBS|id=obs-pressure-002|parameter=pressure|kind=signal|value=15.8|value_type=number|value_status=known|unit=Pa|unit_status=known|timestamp=2026-03-02T11:07:00Z
+OBS|id=obs-drift-index-001|parameter=drift_index|kind=derived|value=0.7|value_type=number|value_status=known|unit_status=not_applicable|timestamp=2026-03-02T11:08:00Z
+EVENT|id=evt-warning-001|type=warning|severity=warning|status=observed|code=SYN_DRIFT_001|message=Synthetic pressure drift observed|timestamp=2026-03-02T11:08:00Z
+EVENT|id=evt-alarm-001|type=alarm|severity=error|status=cleared|code=SYN_LIMIT_001|message=Synthetic limit alarm cleared|timestamp=2026-03-02T11:11:00Z
+QUALITY|status=uncertain|flags=synthetic_drift_marker,synthetic_alarm_marker|notes=Synthetic warning and alarm fixture.

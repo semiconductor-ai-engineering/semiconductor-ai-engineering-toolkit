@@ -29,3 +29,8 @@ jobs:
 
       - name: Validate representative fixture through CLI
         run: semi-ai validate examples/synthetic_data/run_warning_alarm_001.json
+
+      - name: Parse representative synthetic log through CLI
+        run: |
+          semi-ai parse examples/synthetic_logs/run_warning_alarm_001.log --output parsed_run.json
+          semi-ai validate parsed_run.json

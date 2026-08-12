@@ -1,0 +1,10 @@
+# Fully synthetic line log; values are invented for parser tests.
+RUN|run_id=synthetic-log-completed-001|status=completed|start=2026-03-01T10:00:00Z|end=2026-03-01T10:12:00Z
+CONTEXT|equipment_class=synthetic_chamber|equipment_label=demo-chamber|module_class=synthetic_pressure_module|module_label=demo-module|process_family=synthetic_pressure_demo|recipe_class=synthetic_recipe_a
+PARAM|id=param-pressure-target-001|name=pressure_target|kind=setpoint|value=12.0|value_type=number|value_status=known|unit=Pa|unit_status=known|timestamp=2026-03-01T10:00:00Z
+OBS|id=obs-pressure-001|parameter=pressure|kind=signal|value=12.4|value_type=number|value_status=known|unit=Pa|unit_status=known|timestamp=2026-03-01T10:04:00Z
+OBS|id=obs-mode-001|parameter=control_mode|kind=signal|value=steady|value_type=string|value_status=known|unit_status=not_applicable|timestamp=2026-03-01T10:05:00Z
+OBS|id=obs-ready-001|parameter=ready_flag|kind=signal|value=true|value_type=boolean|value_status=known|unit_status=not_applicable|timestamp=2026-03-01T10:06:00Z
+EVENT|id=evt-start-001|type=state_change|severity=info|status=observed|code=SYN_START_001|message=Synthetic run started|timestamp=2026-03-01T10:00:00Z
+EVENT|id=evt-end-001|type=state_change|severity=info|status=observed|code=SYN_END_001|message=Synthetic run completed|timestamp=2026-03-01T10:12:00Z
+QUALITY|status=accepted|flags=|notes=Synthetic completed fixture.

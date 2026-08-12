@@ -45,11 +45,11 @@ Status: `DONE`.
 
 ## Phase 0.6 — Parser implementation
 
-Status: `TODO`.
+Status: `IN PROGRESS` on the Phase 0.6 feature branch; implementation is reviewable through a pull request.
 
-- implement deterministic parsing;
-- report visible validation errors;
-- add focused tests for the synthetic dataset.
+- implement deterministic parsing for the documented synthetic line format;
+- report visible structured parsing and validation errors;
+- add focused fixtures and tests without claiming compatibility with real log formats.
 
 ## Phase 0.7 — Tests and CI expansion
 
