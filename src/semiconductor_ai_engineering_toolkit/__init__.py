@@ -1,4 +1,22 @@
-"""Public APIs for validation, parsing, and deterministic RunRecord reports."""
+"""Public APIs for validation, parsing, reporting, and local retrieval."""
+
+from .knowledge_retrieval import (
+    DEFAULT_TOP_K,
+    EVIDENCE_NOTICE,
+    KnowledgeCorpusError,
+    KnowledgeRetrievalError,
+    KnowledgeRetrievalInputError,
+    LocalKnowledgeIndex,
+    MAX_CHUNKS,
+    MAX_CORPUS_FILE_BYTES,
+    MAX_CORPUS_FILES,
+    MAX_DOCUMENT_TEXT_CHARS,
+    MAX_EXCERPT_CHARS,
+    MAX_QUERY_CHARS,
+    MAX_TOP_K,
+    build_local_index,
+    retrieve_documents,
+)
 
 from .engineering_report import (
     EngineeringReportError,
@@ -18,6 +36,21 @@ from .validation import validate_run_record, validate_run_record_file
 
 __all__ = [
     "SyntheticLogParseError",
+    "KnowledgeRetrievalError",
+    "KnowledgeRetrievalInputError",
+    "KnowledgeCorpusError",
+    "LocalKnowledgeIndex",
+    "DEFAULT_TOP_K",
+    "EVIDENCE_NOTICE",
+    "MAX_CHUNKS",
+    "MAX_CORPUS_FILE_BYTES",
+    "MAX_CORPUS_FILES",
+    "MAX_DOCUMENT_TEXT_CHARS",
+    "MAX_EXCERPT_CHARS",
+    "MAX_QUERY_CHARS",
+    "MAX_TOP_K",
+    "build_local_index",
+    "retrieve_documents",
     "EngineeringReportError",
     "EngineeringReportInputError",
     "EngineeringReportValidationError",

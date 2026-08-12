@@ -8,7 +8,7 @@ An open-source foundation for exploring AI-assisted workflows in semiconductor e
 
 ## Status
 
-This project is in the design and initial-build stage (`pre-alpha`). The public baseline, run-centric data schema, validation toolkit, synthetic dataset, and `v0.1.0-alpha.1` release are available. Phase 0.6 adds a deliberately small synthetic line-log parser prototype, and Phase 0.7 adds a deterministic engineering report generator for validated RunRecord data. The project does not claim production readiness, customer validation, or connection to a live fab or equipment system.
+This project is in the design and initial-build stage (`pre-alpha`). The public baseline, run-centric data schema, validation toolkit, synthetic dataset, and `v0.1.0-alpha.1` release are available. Phase 0.6 adds a deliberately small synthetic line-log parser prototype, Phase 0.7 adds a deterministic engineering report generator for validated RunRecord data, and Phase 0.8 adds a local lexical retrieval demo over synthetic DocumentChunk fixtures. The project does not claim production readiness, customer validation, or connection to a live fab or equipment system.
 
 ## Quick Start
 
@@ -23,6 +23,7 @@ python -m pip install -e .
 semi-ai validate examples/synthetic_dataset_v0_1/runs/completed/run_completed_001.json
 semi-ai parse examples/synthetic_logs/run_completed_001.log
 semi-ai report examples/synthetic_data/run_completed_001.json --output engineering_report.md
+semi-ai retrieve "synthetic pressure warning" --top-k 3
 ```
 
 On macOS or Linux, activate the environment with `source .venv/bin/activate` instead. Expected validation output:
@@ -38,9 +39,9 @@ For local tests, install the test extra and run `python -m pytest -q`.
 - `log parser`: convert synthetic or explicitly sanitized run logs into structured data;
 - `run-centric data schema`: normalize run identity, equipment/module context, parameters, measurements, events, metadata, provenance, and quality;
 - `engineering report generator`: turn structured run data into traceable Markdown reports;
-- `knowledge retrieval demo`: demonstrate local retrieval over public or synthetic engineering documents with source references.
+- `knowledge retrieval demo`: demonstrate deterministic local lexical retrieval over synthetic engineering documents with source references; it returns ranked evidence, not generated answers.
 
-The current milestone contains documentation, governance files, a machine-readable JSON Schema, small synthetic fixtures, a local schema validation toolkit, a fully synthetic dataset v0.1, a deterministic parser for the deliberately simple synthetic line-log format documented in [Synthetic Log Parser v0.1](docs/SYNTHETIC_LOG_PARSER_V0_1.md), and a deterministic Markdown report generator documented in [Engineering Report Generator v0.1](docs/ENGINEERING_REPORT_GENERATOR_V0_1.md). The parser is not a general vendor-log adapter, and the report generator does not diagnose causes or provide process guidance.
+The current milestone contains documentation, governance files, a machine-readable JSON Schema, small synthetic fixtures, a local schema validation toolkit, a fully synthetic dataset v0.1, a deterministic parser for the deliberately simple synthetic line-log format documented in [Synthetic Log Parser v0.1](docs/SYNTHETIC_LOG_PARSER_V0_1.md), a deterministic Markdown report generator documented in [Engineering Report Generator v0.1](docs/ENGINEERING_REPORT_GENERATOR_V0_1.md), and a deterministic local retrieval demo documented in [Knowledge Retrieval Demo v0.1](docs/KNOWLEDGE_RETRIEVAL_DEMO_V0_1.md). The parser is not a general vendor-log adapter, the report generator does not diagnose causes or provide process guidance, and the retriever does not synthesize answers.
 
 ## Explicit boundary
 
@@ -64,6 +65,7 @@ This is a public, general-purpose foundation. It is not a public mirror of any p
 - [Validation toolkit](docs/VALIDATION_TOOLKIT_V0_1.md)
 - [Synthetic log parser v0.1](docs/SYNTHETIC_LOG_PARSER_V0_1.md)
 - [Engineering report generator v0.1](docs/ENGINEERING_REPORT_GENERATOR_V0_1.md)
+- [Knowledge retrieval demo v0.1](docs/KNOWLEDGE_RETRIEVAL_DEMO_V0_1.md)
 - [Changelog](CHANGELOG.md)
 - [Public release readiness](docs/RELEASE_READINESS_V0_1.md)
 - [Security policy](SECURITY.md)
@@ -72,6 +74,7 @@ This is a public, general-purpose foundation. It is not a public mirror of any p
 - [Synthetic run fixtures](examples/synthetic_data/)
 - [Synthetic log fixtures](examples/synthetic_logs/)
 - [Synthetic dataset v0.1](examples/synthetic_dataset_v0_1/)
+- [Synthetic retrieval regression fixture](examples/synthetic_retrieval/)
 
 ## Development philosophy
 
@@ -84,6 +87,7 @@ The project will grow through small, inspectable commits:
 5. synthetic dataset v0.1;
 6. synthetic log parser prototype;
 7. deterministic engineering report generator;
-8. tests and expanded CI.
+8. deterministic local knowledge retrieval;
+9. tests and expanded CI.
 
 The project will prefer deterministic inputs, visible errors, source-linked outputs, and human review over broad automation claims.

@@ -53,7 +53,7 @@ Status: `DONE` through the merged Phase 0.6 pull request.
 
 ## Phase 0.7 — Engineering Report Generator
 
-Status: `IN PROGRESS` on the Phase 0.7 feature branch; implementation is reviewable through a pull request.
+Status: `DONE` through the merged Phase 0.7 pull request.
 
 - validate each input through the canonical RunRecord v0.1 validator;
 - generate deterministic ReportRecord-compatible data and Markdown;
@@ -63,13 +63,25 @@ Status: `IN PROGRESS` on the Phase 0.7 feature branch; implementation is reviewa
 - keep the implementation non-LLM, local-only, non-networked, and free of dynamic execution;
 - add synthetic expected reports, focused tests, and minimal CI/documentation updates.
 
-## Phase 1 — Retrieval demonstration
+## Phase 0.8 — Knowledge Retrieval Demo
+
+Status: `IN PROGRESS` on the `phase-0.8-knowledge-retrieval-demo` feature branch; implementation is reviewable through a pull request.
+
+- retrieve from the existing synthetic DocumentChunk JSON corpus with a deterministic local lexical index;
+- score normalized TF-IDF-like term overlap and sort by score, document ID, and chunk ID;
+- expose a Python API and `semi-ai retrieve` CLI that return ranked evidence only;
+- preserve repository-relative provenance and bounded excerpts;
+- reject URL-like paths, non-synthetic chunks, oversized inputs, and invalid limits;
+- keep the implementation non-LLM, non-generative, local-only, network-free, and free of dynamic execution;
+- add deterministic fixtures, tests, security checks, and [Knowledge Retrieval Demo v0.1](KNOWLEDGE_RETRIEVAL_DEMO_V0_1.md) documentation.
+
+## Phase 1 — Retrieval evaluation and feedback
 
 Status: `TODO`.
 
-- add a small public/synthetic document set;
-- implement local retrieval with source references;
-- test insufficient-evidence behavior.
+- measure retrieval behavior over expanded public/synthetic evaluation cases;
+- document relevance and insufficiency behavior without generating engineering advice;
+- consider future extensions only after human review and additional public-safe evidence.
 
 ## Long-term maintenance goal
 
