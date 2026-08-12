@@ -45,29 +45,25 @@ Status: `DONE`.
 
 ## Phase 0.6 — Parser implementation
 
-Status: `IN PROGRESS` on the Phase 0.6 feature branch; implementation is reviewable through a pull request.
+Status: `DONE` through the merged Phase 0.6 pull request.
 
 - implement deterministic parsing for the documented synthetic line format;
 - report visible structured parsing and validation errors;
 - add focused fixtures and tests without claiming compatibility with real log formats.
 
-## Phase 0.7 — Tests and CI expansion
+## Phase 0.7 — Engineering Report Generator
 
-Status: `TODO`.
+Status: `IN PROGRESS` on the Phase 0.7 feature branch; implementation is reviewable through a pull request.
 
-- expand CI beyond the documentation placeholder;
-- run unit tests and basic quality checks;
-- verify a clean-environment example path.
+- validate each input through the canonical RunRecord v0.1 validator;
+- generate deterministic ReportRecord-compatible data and Markdown;
+- distinguish observed facts from count-based derived summaries;
+- include run identity/status, time window, context, observations, events/alarms, quality, provenance, limitations, and disclaimer;
+- refuse silent output-file overwrite;
+- keep the implementation non-LLM, local-only, non-networked, and free of dynamic execution;
+- add synthetic expected reports, focused tests, and minimal CI/documentation updates.
 
-## Phase 1 — Report generation
-
-Status: `TODO`.
-
-- generate Markdown reports from structured run data;
-- retain source metadata and warnings;
-- distinguish observations from interpretation.
-
-## Phase 2 — Retrieval demonstration
+## Phase 1 — Retrieval demonstration
 
 Status: `TODO`.
 
