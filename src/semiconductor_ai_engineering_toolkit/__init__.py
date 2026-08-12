@@ -1,4 +1,4 @@
-"""Public APIs for validation, parsing, reporting, and local retrieval."""
+"""Public APIs for validation, parsing, reporting, retrieval, and evaluation."""
 
 from .knowledge_retrieval import (
     DEFAULT_TOP_K,
@@ -32,6 +32,20 @@ from .synthetic_log_parser import (
     parse_synthetic_log,
     parse_synthetic_log_file,
 )
+from .retrieval_evaluation import (
+    DEFAULT_EVALUATION_CASES_PATH,
+    EVALUATION_NOTICE,
+    FAILURE_CATEGORIES,
+    MAX_CASE_NOTES_CHARS,
+    MAX_EVALUATION_CASES,
+    MAX_EVALUATION_FILE_BYTES,
+    RetrievalEvaluationError,
+    RetrievalEvaluationInputError,
+    evaluate_retrieval,
+    load_retrieval_evaluation_cases,
+    run_retrieval_evaluation,
+    summarize_retrieval_evaluation,
+)
 from .validation import validate_run_record, validate_run_record_file
 
 __all__ = [
@@ -59,6 +73,18 @@ __all__ = [
     "render_engineering_report",
     "parse_synthetic_log",
     "parse_synthetic_log_file",
+    "DEFAULT_EVALUATION_CASES_PATH",
+    "EVALUATION_NOTICE",
+    "FAILURE_CATEGORIES",
+    "MAX_CASE_NOTES_CHARS",
+    "MAX_EVALUATION_CASES",
+    "MAX_EVALUATION_FILE_BYTES",
+    "RetrievalEvaluationError",
+    "RetrievalEvaluationInputError",
+    "evaluate_retrieval",
+    "load_retrieval_evaluation_cases",
+    "run_retrieval_evaluation",
+    "summarize_retrieval_evaluation",
     "validate_run_record",
     "validate_run_record_file",
 ]

@@ -34,3 +34,6 @@ jobs:
         run: |
           semi-ai parse examples/synthetic_logs/run_warning_alarm_001.log --output parsed_run.json
           semi-ai validate parsed_run.json
+
+      - name: Evaluate synthetic retrieval baseline through CLI
+        run: semi-ai evaluate-retrieval

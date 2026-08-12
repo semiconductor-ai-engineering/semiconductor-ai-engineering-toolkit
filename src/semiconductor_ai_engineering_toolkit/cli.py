@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 from typing import Sequence
 
@@ -19,6 +20,10 @@ from .knowledge_retrieval import (
     KnowledgeRetrievalInputError,
     build_local_index,
     retrieve_documents,
+)
+from .retrieval_evaluation import (
+    RetrievalEvaluationError,
+    run_retrieval_evaluation,
 )
 from .synthetic_log_parser import (
     SyntheticLogParseError,
@@ -67,6 +72,20 @@ def _parser() -> argparse.ArgumentParser:
         default=3,
         help="maximum number of ranked evidence results (1-20; default: 3)",
     )
+    evaluate_retrieval = commands.add_parser(
+        "evaluate-retrieval",
+        help="measure local retrieval against synthetic evaluation cases",
+    )
+    evaluate_retrieval.add_argument(
+        "--cases",
+        type=str,
+        help="optional explicit local JSON evaluation case file",
+    )
+    evaluate_retrieval.add_argument(
+        "--corpus",
+        type=str,
+        help="optional explicit local .json file or directory of synthetic document chunks",
+    )
     return parser
 
 
@@ -109,7 +128,18 @@ def _print_retrieve_failure(error: KnowledgeRetrievalInputError | KnowledgeCorpu
     print(f"- {error.code}: {error.message}")
 
 
+def _print_evaluation_failure(
+    error: RetrievalEvaluationError | KnowledgeRetrievalInputError | KnowledgeCorpusError,
+) -> None:
+    print("Evaluation failed")
+    print(f"- {error.code}: {error.message}")
+
+
 def main(argv: Sequence[str] | None = None) -> int:
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except (AttributeError, OSError):
+        pass
     args = _parser().parse_args(argv)
 
     if args.command == "validate":
@@ -193,6 +223,23 @@ def main(argv: Sequence[str] | None = None) -> int:
             "query": args.query,
             "results": results,
         }
+        print(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True))
+        return 0
+
+    if args.command == "evaluate-retrieval":
+        try:
+            payload = run_retrieval_evaluation(
+                cases_path=args.cases,
+                corpus_path=args.corpus,
+            )
+        except (
+            RetrievalEvaluationError,
+            KnowledgeRetrievalInputError,
+            KnowledgeCorpusError,
+        ) as exc:
+            _print_evaluation_failure(exc)
+            return 1
+
         print(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True))
         return 0
 
