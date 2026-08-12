@@ -88,4 +88,4 @@ __all__ = [
     "validate_run_record",
     "validate_run_record_file",
 ]
-__version__ = "0.1.0a1"
+__version__ = "0.1.0a2"
