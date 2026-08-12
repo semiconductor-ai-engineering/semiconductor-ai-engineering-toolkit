@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  documentation-placeholder:
+    name: Documentation placeholder
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Check baseline files
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f README.md
+          test -f LICENSE
+          test -f SECURITY.md
+          test -f CONTRIBUTING.md
+          test -f docs/PROJECT_BASELINE_V0_1.md
+          test -f docs/ROADMAP.md
+          test -f docs/ARCHITECTURE.md
+          test -f examples/README.md
+          echo "Public project baseline files are present."
