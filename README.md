@@ -8,7 +8,19 @@ An open-source foundation for exploring AI-assisted workflows in semiconductor e
 
 ## Status
 
-This project is in the design and initial-build stage (`pre-alpha`). The public baseline, run-centric data schema, validation toolkit, synthetic dataset, and `v0.1.0-alpha.1` release are available. Phase 0.6 adds a deliberately small synthetic line-log parser prototype, Phase 0.7 adds a deterministic engineering report generator for validated RunRecord data, and Phase 0.8 adds a local lexical retrieval demo over synthetic DocumentChunk fixtures. The project does not claim production readiness, customer validation, or connection to a live fab or equipment system.
+This project is in the early public development stage (`pre-alpha`).
+
+Completed milestones:
+
+- Phase 0.6 — deterministic synthetic log parser prototype
+- Phase 0.7 — deterministic engineering report generator
+- Phase 0.8 — local-only knowledge retrieval demo
+- Phase 0.9 — retrieval evaluation harness with deterministic metrics
+
+The current release demonstrates an engineering workflow foundation:
+synthetic data → validation → parsing → reporting → evidence retrieval → evaluation.
+
+The project does not claim production readiness, customer validation, or connection to live fab systems.
 
 ## Quick Start
 
@@ -42,7 +54,7 @@ For local tests, install the test extra and run `python -m pytest -q`.
 - `engineering report generator`: turn structured run data into traceable Markdown reports;
 - `knowledge retrieval demo`: demonstrate deterministic local lexical retrieval over synthetic engineering documents with source references; it returns ranked evidence, not generated answers.
 
-The current milestone contains documentation, governance files, a machine-readable JSON Schema, small synthetic fixtures, a local schema validation toolkit, a fully synthetic dataset v0.1, a deterministic parser for the deliberately simple synthetic line-log format documented in [Synthetic Log Parser v0.1](docs/SYNTHETIC_LOG_PARSER_V0_1.md), a deterministic Markdown report generator documented in [Engineering Report Generator v0.1](docs/ENGINEERING_REPORT_GENERATOR_V0_1.md), and a deterministic local retrieval demo documented in [Knowledge Retrieval Demo v0.1](docs/KNOWLEDGE_RETRIEVAL_DEMO_V0_1.md). The parser is not a general vendor-log adapter, the report generator does not diagnose causes or provide process guidance, and the retriever does not synthesize answers.
+The current milestone contains documentation, governance files, a machine-readable JSON Schema, small synthetic fixtures, a local schema validation toolkit, a fully synthetic dataset v0.1, a deterministic parser for the deliberately simple synthetic line-log format documented in [Synthetic Log Parser v0.1](docs/SYNTHETIC_LOG_PARSER_V0_1.md), a deterministic Markdown report generator documented in [Engineering Report Generator v0.1](docs/ENGINEERING_REPORT_GENERATOR_V0_1.md), a deterministic local retrieval demo documented in [Knowledge Retrieval Demo v0.1](docs/KNOWLEDGE_RETRIEVAL_DEMO_V0_1.md), and a deterministic retrieval evaluation harness documented in [Retrieval Evaluation Harness v0.1](docs/RETRIEVAL_EVALUATION_HARNESS_V0_1.md). The parser is not a general vendor-log adapter, the report generator does not diagnose causes or provide process guidance, the retriever does not synthesize answers, and the evaluation harness reports measurement data rather than engineering advice.
 
 ## Explicit boundary
 
