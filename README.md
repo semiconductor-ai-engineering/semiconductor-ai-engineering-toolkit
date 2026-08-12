@@ -24,6 +24,7 @@ semi-ai validate examples/synthetic_dataset_v0_1/runs/completed/run_completed_00
 semi-ai parse examples/synthetic_logs/run_completed_001.log
 semi-ai report examples/synthetic_data/run_completed_001.json --output engineering_report.md
 semi-ai retrieve "synthetic pressure warning" --top-k 3
+semi-ai evaluate-retrieval
 ```
 
 On macOS or Linux, activate the environment with `source .venv/bin/activate` instead. Expected validation output:
@@ -66,6 +67,7 @@ This is a public, general-purpose foundation. It is not a public mirror of any p
 - [Synthetic log parser v0.1](docs/SYNTHETIC_LOG_PARSER_V0_1.md)
 - [Engineering report generator v0.1](docs/ENGINEERING_REPORT_GENERATOR_V0_1.md)
 - [Knowledge retrieval demo v0.1](docs/KNOWLEDGE_RETRIEVAL_DEMO_V0_1.md)
+- [Retrieval evaluation harness v0.1](docs/RETRIEVAL_EVALUATION_HARNESS_V0_1.md)
 - [Changelog](CHANGELOG.md)
 - [Public release readiness](docs/RELEASE_READINESS_V0_1.md)
 - [Security policy](SECURITY.md)
@@ -75,6 +77,7 @@ This is a public, general-purpose foundation. It is not a public mirror of any p
 - [Synthetic log fixtures](examples/synthetic_logs/)
 - [Synthetic dataset v0.1](examples/synthetic_dataset_v0_1/)
 - [Synthetic retrieval regression fixture](examples/synthetic_retrieval/)
+- [Synthetic retrieval evaluation cases](examples/synthetic_retrieval/evaluation/)
 
 ## Development philosophy
 
@@ -88,6 +91,6 @@ The project will grow through small, inspectable commits:
 6. synthetic log parser prototype;
 7. deterministic engineering report generator;
 8. deterministic local knowledge retrieval;
-9. tests and expanded CI.
+9. retrieval evaluation and expanded CI.
 
 The project will prefer deterministic inputs, visible errors, source-linked outputs, and human review over broad automation claims.

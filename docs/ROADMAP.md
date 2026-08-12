@@ -65,7 +65,7 @@ Status: `DONE` through the merged Phase 0.7 pull request.
 
 ## Phase 0.8 — Knowledge Retrieval Demo
 
-Status: `IN PROGRESS` on the `phase-0.8-knowledge-retrieval-demo` feature branch; implementation is reviewable through a pull request.
+Status: `DONE` through the merged Phase 0.8 pull request.
 
 - retrieve from the existing synthetic DocumentChunk JSON corpus with a deterministic local lexical index;
 - score normalized TF-IDF-like term overlap and sort by score, document ID, and chunk ID;
@@ -74,6 +74,17 @@ Status: `IN PROGRESS` on the `phase-0.8-knowledge-retrieval-demo` feature branch
 - reject URL-like paths, non-synthetic chunks, oversized inputs, and invalid limits;
 - keep the implementation non-LLM, non-generative, local-only, network-free, and free of dynamic execution;
 - add deterministic fixtures, tests, security checks, and [Knowledge Retrieval Demo v0.1](KNOWLEDGE_RETRIEVAL_DEMO_V0_1.md) documentation.
+
+## Phase 0.9 — Retrieval Evaluation Harness
+
+Status: `IN PROGRESS` on the `phase-0.9-retrieval-evaluation-harness` feature branch.
+
+- add a bounded machine-readable synthetic retrieval evaluation set;
+- measure top-1, top-k, expected-empty, score-threshold, and deterministic-tie behavior;
+- classify no-match, wrong-rank, unexpected-match, score, and case-input failures;
+- expose a local Python API and `semi-ai evaluate-retrieval` CLI with stable JSON output;
+- keep evaluation local-only, synthetic-only, non-generative, network-free, and free of dynamic execution;
+- document the baseline and limitations before considering embeddings, vector databases, or LLMs.
 
 ## Phase 1 — Retrieval evaluation and feedback
 
